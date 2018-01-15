@@ -41,13 +41,6 @@ public class PlayerControl extends AbstractControl implements ActionListener, An
         this.screenHeight = screenHeight;
     }
 
-    private boolean isPlayerAlive() {
-        if (spatial == null) {
-            return false;
-        }
-        return spatial.getUserData("alive");
-    }
-
     /**
      * Called in each frame
      *
@@ -136,7 +129,7 @@ public class PlayerControl extends AbstractControl implements ActionListener, An
      */
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        if (isPlayerAlive()) {
+        if (app.isPlayerAlive()) {
             // Check pressed key
             if (name.equals("up")) {
                 this.up = isPressed;
@@ -159,7 +152,7 @@ public class PlayerControl extends AbstractControl implements ActionListener, An
      */
     @Override
     public void onAnalog(String name, float value, float tpf) {
-        if (isPlayerAlive()) {
+        if (app.isPlayerAlive()) {
             if (name.equals("mousePick")) {
                 app.shootBullet();
             }

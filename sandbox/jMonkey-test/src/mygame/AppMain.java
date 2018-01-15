@@ -7,11 +7,13 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.Control;
 import com.jme3.texture.Texture2D;
 import com.jme3.ui.Picture;
 
@@ -24,12 +26,25 @@ import com.jme3.ui.Picture;
 public class AppMain extends SimpleApplication {
 
     // Time between two bullets, in milliseconds
-    private final long BULLET_COOLDOWN_MS = 100;
+    private final long BULLET_COOLDOWN_MS = 200;
+    // Time between two enemy spawns
+    private final long ENEMY_SPAWN_COOLDOWN_MS = 20;
+
+    // Min distance between enemy and player, when a new enemy is spawned
+    private final long MIN_ENEMY_PLAYER_DIST = 100;
+    
+    // Max number of enemies that we can simultaneously have
+    private final int MAX_ENEMIES = 10;
+
+    // Odds that in next spawn cycle we create an enemy (1/100)
+    private float enemySpawnChance = 100f;
 
     private long lastBulletReleaseTime = 0;
+    private long lastEnemySpawnTime = 0;
 
     private Spatial player;
     private Node bulletNode;
+    private Node enemyNode;
 
     public static void main(String[] args) {
         AppMain app = new AppMain();
@@ -42,7 +57,8 @@ public class AppMain extends SimpleApplication {
         turnOffStats();
         setUpPlayer();
         setUpControls();
-        setUpBulletNode();
+        setUpBullets();
+        setUpEnemies();
     }
 
     private Spatial getSpatial(String name) {
@@ -73,9 +89,16 @@ public class AppMain extends SimpleApplication {
         return node;
     }
 
+    /**
+     * This method is called on each game cycle
+     *
+     * @param tpf
+     */
     @Override
     public void simpleUpdate(float tpf) {
-        //TODO: add update code
+        if (isPlayerAlive()) {
+            spawnEnemies();
+        }
     }
 
     @Override
@@ -133,9 +156,26 @@ public class AppMain extends SimpleApplication {
         inputManager.addListener(controller, "mousePick");
     }
 
-    private void setUpBulletNode() {
+    private void setUpBullets() {
         bulletNode = new Node("bullets");
         guiNode.attachChild(bulletNode);
+    }
+
+    private void setUpEnemies() {
+        enemyNode = new Node("enemies");
+        guiNode.attachChild(enemyNode);
+    }
+
+    /**
+     * Returns true if the player is initalized and alive
+     *
+     * @return
+     */
+    public boolean isPlayerAlive() {
+        if (player == null) {
+            return false;
+        }
+        return (Boolean) player.getUserData("alive");
     }
 
     /**
@@ -171,8 +211,37 @@ public class AppMain extends SimpleApplication {
     }
 
     /**
+     * Spawn next enemies if we need to
+     */
+    private void spawnEnemies() {
+        long t = System.currentTimeMillis();
+        // Check if enough time elapsed since previous enemy spawn
+        if (t - lastEnemySpawnTime >= ENEMY_SPAWN_COOLDOWN_MS) {
+            lastEnemySpawnTime = t;
+
+            if (enemyNode.getQuantity() < MAX_ENEMIES) {
+                // Probabilistic enemy spawning
+                int r = Helper.RANDOMIZER.nextInt((int) enemySpawnChance);
+                if (r == 0) {
+                    createSeeker();
+                }
+                r = Helper.RANDOMIZER.nextInt((int) enemySpawnChance);
+                if (r == 0) {
+                    createWanderer();
+                }
+            }
+            // Increase the chance of spawning enemies: decrease time between two spawns 
+            // as the game progresses
+            if (enemySpawnChance >= 1.1f) {
+                enemySpawnChance -= 0.005f;
+            }
+        }
+    }
+
+    /**
      * Calculate the aiming direction based on player and mouse positions
-     * @return 
+     *
+     * @return
      */
     private Vector3f getAimDirection() {
         Vector2f mouse = inputManager.getCursorPosition();
@@ -181,4 +250,42 @@ public class AppMain extends SimpleApplication {
         return dif.normalizeLocal();
     }
 
+    /**
+     * Create enemy of type "Seeker"
+     */
+    private void createSeeker() {
+        createEnemy("Seeker", new SeekerControl(player, "Seeker"));
+    }
+
+    /**
+     * Create enemy of type "Wanderer"
+     */
+    private void createWanderer() {
+        createEnemy("Wanderer", new WandererControl("Wanderer", settings.getWidth(), settings.getHeight()));
+    }
+
+    /**
+     * Create a single enemy with given Spatial asset name and controller
+     *
+     * @param spatialAssetName
+     * @param enemyControl
+     */
+    private void createEnemy(String spatialAssetName, Control enemyControl) {
+        Spatial enemy = getSpatial(spatialAssetName);
+        enemy.setLocalTranslation(getSpawnPosition());
+        enemy.addControl(enemyControl);
+        enemy.setUserData("active", false);
+        enemyNode.attachChild(enemy);
+    }
+
+    private Vector3f getSpawnPosition() {
+        Vector3f pos;
+        do {
+            // Try random positions until we get one far enough from the player
+            int x = Helper.RANDOMIZER.nextInt(settings.getWidth());
+            int y = Helper.RANDOMIZER.nextInt(settings.getHeight());
+            pos = new Vector3f(x, y, 0);
+        } while (FastMath.abs(pos.distance(player.getLocalTranslation())) < MIN_ENEMY_PLAYER_DIST);
+        return pos;
+    }
 }
