@@ -12,7 +12,9 @@ import com.jme3.scene.control.AbstractControl;
  * Movement controller for the player
  */
 public class PlayerControl extends AbstractControl implements ActionListener, AnalogListener {
-
+    // Some distance from the sides of the screen that playe is not allowed to move into
+    private final static int SAFETY_BOUNDARY = 20;
+    
     // Speed of the player
     private final float SPEED = 500f;
     private final AppMain app;
@@ -102,10 +104,10 @@ public class PlayerControl extends AbstractControl implements ActionListener, An
         if (radius < 0) {
             radius = spatial.getUserData("radius");
         }
-        minX = radius * 2;
-        minY = radius * 2;
-        maxX = screenWidth - radius * 2;
-        maxY = screenHeight - radius * 2;
+        minX = radius + SAFETY_BOUNDARY;
+        minY = radius + SAFETY_BOUNDARY;
+        maxX = screenWidth - radius - SAFETY_BOUNDARY;
+        maxY = screenHeight - radius - SAFETY_BOUNDARY;
     }
 
     /**
@@ -159,4 +161,7 @@ public class PlayerControl extends AbstractControl implements ActionListener, An
         }
     }
 
+    public void reset() {
+        up = down = left = right = false;
+    }
 }

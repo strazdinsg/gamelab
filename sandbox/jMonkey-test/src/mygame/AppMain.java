@@ -32,7 +32,7 @@ public class AppMain extends SimpleApplication {
 
     // Min distance between enemy and player, when a new enemy is spawned
     private final long MIN_ENEMY_PLAYER_DIST = 100;
-    
+
     // Max number of enemies that we can simultaneously have
     private final int MAX_ENEMIES = 10;
 
@@ -98,6 +98,7 @@ public class AppMain extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         if (isPlayerAlive()) {
             spawnEnemies();
+            checkCollisions();
         }
     }
 
@@ -288,4 +289,30 @@ public class AppMain extends SimpleApplication {
         } while (FastMath.abs(pos.distance(player.getLocalTranslation())) < MIN_ENEMY_PLAYER_DIST);
         return pos;
     }
+
+    /**
+     * Check if the player has collided with any of the enemies and damage/kill
+     * player if necessary
+     */
+    private void checkCollisions() {
+        for (Spatial enemy : enemyNode.getChildren()) {
+            if (enemy.getUserData("active")) {
+                if (Helper.checkCollision(player, enemy)) {
+                    killPlayer();
+                }
+            }
+        }
+    }
+
+    /**
+     * Kill the player
+     */
+    private void killPlayer() {
+        player.removeFromParent();
+        player.getControl(PlayerControl.class).reset();
+        player.setUserData("alive", false);
+        player.setUserData("dieTime", System.currentTimeMillis());
+        enemyNode.detachAllChildren();
+    }
+
 }
