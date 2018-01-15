@@ -10,6 +10,9 @@ import com.jme3.scene.control.AbstractControl;
 
 /**
  * Movement controller for the player
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class PlayerControl extends AbstractControl implements ActionListener, AnalogListener {
     // Some distance from the sides of the screen that playe is not allowed to move into

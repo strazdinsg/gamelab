@@ -5,6 +5,9 @@ import com.jme3.math.Vector3f;
 
 /**
  * Contoller implementing behavior for Wanderer enemy: random movement
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class WandererControl extends EnemyControl {
 

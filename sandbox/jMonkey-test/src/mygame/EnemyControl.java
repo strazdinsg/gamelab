@@ -10,6 +10,9 @@ import com.jme3.ui.Picture;
 
 /**
  * Contoller implementing behavior for an enemy
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public abstract class EnemyControl extends AbstractControl {
 

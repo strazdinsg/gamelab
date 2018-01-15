@@ -6,6 +6,9 @@ import com.jme3.audio.AudioNode;
 
 /**
  * Our sound factory for playing music and short sounds
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class Sound {
 
