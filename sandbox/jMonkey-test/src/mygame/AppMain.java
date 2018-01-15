@@ -19,9 +19,9 @@ import com.jme3.ui.Picture;
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
- * Move your Logic into AppStates or Controls
- *
- * @author normenhansen
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class AppMain extends SimpleApplication {
 
@@ -54,6 +54,8 @@ public class AppMain extends SimpleApplication {
     private Node bulletNode;
     private Node enemyNode;
 
+    private Sound sound;
+
     public static void main(String[] args) {
         AppMain app = new AppMain();
         app.start();
@@ -61,6 +63,7 @@ public class AppMain extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        setUpMusic();
         setUp2DCamera();
         turnOffStats();
         setUpPlayer();
@@ -152,6 +155,7 @@ public class AppMain extends SimpleApplication {
         player.setUserData("alive", true);
         player.move(settings.getWidth() / 2, settings.getHeight() / 2, 0);
         guiNode.attachChild(player);
+        sound.spawn();
     }
 
     /**
@@ -189,6 +193,11 @@ public class AppMain extends SimpleApplication {
     private void setUpEnemies() {
         enemyNode = new Node("enemies");
         guiNode.attachChild(enemyNode);
+    }
+
+    private void setUpMusic() {
+        sound = new Sound(assetManager);
+        sound.startMusic();
     }
 
     /**
@@ -232,6 +241,8 @@ public class AppMain extends SimpleApplication {
             bullet2.setLocalTranslation(trans);
             bullet2.addControl(new BulletControl(aim, settings.getWidth(), settings.getHeight()));
             bulletNode.attachChild(bullet2);
+            
+            sound.shoot();
         }
     }
 
@@ -301,6 +312,7 @@ public class AppMain extends SimpleApplication {
         enemy.addControl(enemyControl);
         enemy.setUserData("active", false);
         enemyNode.attachChild(enemy);
+        sound.spawn();
     }
 
     private Vector3f getSpawnPosition() {
@@ -328,9 +340,10 @@ public class AppMain extends SimpleApplication {
                     killPlayer();
                 }
                 // If enemy collided with a bullet, both bullet and enemy are destroyed
-                for (int bulletIndex = 0; bulletIndex< bulletNode.getQuantity(); ++bulletIndex) {
+                for (int bulletIndex = 0; bulletIndex < bulletNode.getQuantity(); ++bulletIndex) {
                     Spatial bullet = bulletNode.getChild(bulletIndex);
                     if (Helper.checkCollision(enemy, bullet)) {
+                        sound.explosion();
                         enemyNode.detachChild(enemy);
                         bulletNode.detachChild(bullet);
                         // Deleting the items change indexing as well
@@ -346,6 +359,7 @@ public class AppMain extends SimpleApplication {
      * Kill the player
      */
     private void killPlayer() {
+        sound.explosion();
         player.removeFromParent();
         player.getControl(PlayerControl.class).reset();
         player.setUserData("alive", false);
