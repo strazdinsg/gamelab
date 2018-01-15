@@ -165,6 +165,10 @@ public class AppMain extends SimpleApplication {
         inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_UP));
         inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_DOWN));
+        inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_A));
+        inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("return", new KeyTrigger(KeyInput.KEY_RETURN));
         inputManager.addListener(controller, "left");
         inputManager.addListener(controller, "right");
