@@ -13,7 +13,8 @@ import com.jme3.scene.control.AbstractControl;
  */
 public class BulletControl extends AbstractControl {
 
-    private int screenWidth, screenHeight;
+    private final int screenWidth;
+    private final int screenHeight;
 
     private final static float SPEED = 1100f;
     public Vector3f direction;

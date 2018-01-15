@@ -19,8 +19,9 @@ import com.jme3.ui.Picture;
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
- * 
- * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ *
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter
+ * in jMonkeyEngine"
  * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class AppMain extends SimpleApplication {
@@ -29,6 +30,8 @@ public class AppMain extends SimpleApplication {
     private final long BULLET_COOLDOWN_MS = 200;
     // Time between two enemy spawns
     private final long ENEMY_SPAWN_COOLDOWN_MS = 20;
+    // Time between two black holes
+    private final long BLACK_HOLE_COOLDOWN_MS = 20;
     // Respawn timeout after players death
     private final long PLAYER_RESPAWN_TIMEOUT_MS = 2000;
 
@@ -38,14 +41,21 @@ public class AppMain extends SimpleApplication {
     // Max number of enemies that we can simultaneously have
     private final int MAX_ENEMIES = 10;
 
+    // Max number of black holes that we can simultaneously have
+    private final int MAX_BLACK_HOLES = 2;
+
     // Number of lives for the player
     private final int PLAYER_LIVES = 3;
 
     // Odds that in next spawn cycle we create an enemy (1/100)
     private float enemySpawnChance = 100f;
 
+    // Odds that in next spawn cycle we create a black hole (1/200)
+    private float blackHoleSpawnChance = 20f;
+
     private long lastBulletReleaseTime = 0;
     private long lastEnemySpawnTime = 0;
+    private long lastBlackHoleSpawnTime = 0;
 
     // The number of lives left until the game is over
     private int livesLeft = PLAYER_LIVES;
@@ -53,6 +63,7 @@ public class AppMain extends SimpleApplication {
     private Spatial player;
     private Node bulletNode;
     private Node enemyNode;
+    private Node blackHoleNode;
 
     private Sound sound;
 
@@ -70,6 +81,7 @@ public class AppMain extends SimpleApplication {
         setUpControls();
         setUpBullets();
         setUpEnemies();
+        setUpBlackHoles();
     }
 
     private Spatial getSpatial(String name) {
@@ -109,6 +121,7 @@ public class AppMain extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         if (isPlayerAlive()) {
             spawnEnemies();
+            spawnBlackHoles();
             checkCollisions();
         } else {
             // If time to respawn
@@ -195,6 +208,11 @@ public class AppMain extends SimpleApplication {
         guiNode.attachChild(enemyNode);
     }
 
+    private void setUpBlackHoles() {
+        blackHoleNode = new Node("blackHoles");
+        guiNode.attachChild(blackHoleNode);
+    }
+    
     private void setUpMusic() {
         sound = new Sound(assetManager);
         sound.startMusic();
@@ -241,7 +259,7 @@ public class AppMain extends SimpleApplication {
             bullet2.setLocalTranslation(trans);
             bullet2.addControl(new BulletControl(aim, settings.getWidth(), settings.getHeight()));
             bulletNode.attachChild(bullet2);
-            
+
             sound.shoot();
         }
     }
@@ -270,6 +288,30 @@ public class AppMain extends SimpleApplication {
             // as the game progresses
             if (enemySpawnChance >= 1.1f) {
                 enemySpawnChance -= 0.005f;
+            }
+        }
+    }
+
+    /**
+     * Spawn next black hole if we need to
+     */
+    private void spawnBlackHoles() {
+        long t = System.currentTimeMillis();
+        // Check if enough time elapsed since previous black hole spawn
+        if (t - lastBlackHoleSpawnTime >= BLACK_HOLE_COOLDOWN_MS) {
+            lastBlackHoleSpawnTime = t;
+
+            if (blackHoleNode.getQuantity() < MAX_BLACK_HOLES) {
+                // Probabilistic black hole spawning
+                int r = Helper.RANDOMIZER.nextInt((int) blackHoleSpawnChance);
+                if (r == 0) {
+                    createBlackHole();
+                }
+            }
+            // Increase the chance of spawning black hole: decrease time between two spawns 
+            // as the game progresses
+            if (blackHoleSpawnChance >= 1.1f) {
+                blackHoleSpawnChance -= 0.005f;
             }
         }
     }
@@ -366,6 +408,14 @@ public class AppMain extends SimpleApplication {
         player.setUserData("dieTime", System.currentTimeMillis());
         enemyNode.detachAllChildren();
         livesLeft--;
+    }
+
+    private void createBlackHole() {
+        Spatial blackHole = getSpatial("Black Hole");
+        blackHole.setLocalTranslation(getSpawnPosition());
+        blackHole.addControl(new BlackHoleControl("Black Hole"));
+        blackHole.setUserData("active", false);
+        blackHoleNode.attachChild(blackHole);
     }
 
 }
