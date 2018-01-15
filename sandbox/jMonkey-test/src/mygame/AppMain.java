@@ -29,6 +29,8 @@ public class AppMain extends SimpleApplication {
     private final long BULLET_COOLDOWN_MS = 200;
     // Time between two enemy spawns
     private final long ENEMY_SPAWN_COOLDOWN_MS = 20;
+    // Respawn timeout after players death
+    private final long PLAYER_RESPAWN_TIMEOUT_MS = 2000;
 
     // Min distance between enemy and player, when a new enemy is spawned
     private final long MIN_ENEMY_PLAYER_DIST = 100;
@@ -36,11 +38,17 @@ public class AppMain extends SimpleApplication {
     // Max number of enemies that we can simultaneously have
     private final int MAX_ENEMIES = 10;
 
+    // Number of lives for the player
+    private final int PLAYER_LIVES = 3;
+
     // Odds that in next spawn cycle we create an enemy (1/100)
     private float enemySpawnChance = 100f;
 
     private long lastBulletReleaseTime = 0;
     private long lastEnemySpawnTime = 0;
+
+    // The number of lives left until the game is over
+    private int livesLeft = PLAYER_LIVES;
 
     private Spatial player;
     private Node bulletNode;
@@ -99,6 +107,18 @@ public class AppMain extends SimpleApplication {
         if (isPlayerAlive()) {
             spawnEnemies();
             checkCollisions();
+        } else {
+            // If time to respawn
+            long currentTime = System.currentTimeMillis();
+            long dieTime = player.getUserData("dieTime");
+            if (livesLeft > 0 && currentTime - dieTime >= PLAYER_RESPAWN_TIMEOUT_MS) {
+                // spawn player
+                int centerX = settings.getWidth() / 2;
+                int centerY = settings.getHeight() / 2;
+                player.setLocalTranslation(centerX, centerY, 0);
+                guiNode.attachChild(player);
+                player.setUserData("alive", true);
+            }
         }
     }
 
@@ -313,6 +333,7 @@ public class AppMain extends SimpleApplication {
         player.setUserData("alive", false);
         player.setUserData("dieTime", System.currentTimeMillis());
         enemyNode.detachAllChildren();
+        livesLeft--;
     }
 
 }
