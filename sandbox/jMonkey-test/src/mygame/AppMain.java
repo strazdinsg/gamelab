@@ -19,9 +19,9 @@ import com.jme3.ui.Picture;
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
- * Move your Logic into AppStates or Controls
- *
- * @author normenhansen
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class AppMain extends SimpleApplication {
 
@@ -29,12 +29,17 @@ public class AppMain extends SimpleApplication {
     private final long BULLET_COOLDOWN_MS = 200;
     // Time between two enemy spawns
     private final long ENEMY_SPAWN_COOLDOWN_MS = 20;
+    // Respawn timeout after players death
+    private final long PLAYER_RESPAWN_TIMEOUT_MS = 2000;
 
     // Min distance between enemy and player, when a new enemy is spawned
     private final long MIN_ENEMY_PLAYER_DIST = 100;
-    
+
     // Max number of enemies that we can simultaneously have
     private final int MAX_ENEMIES = 10;
+
+    // Number of lives for the player
+    private final int PLAYER_LIVES = 3;
 
     // Odds that in next spawn cycle we create an enemy (1/100)
     private float enemySpawnChance = 100f;
@@ -42,9 +47,14 @@ public class AppMain extends SimpleApplication {
     private long lastBulletReleaseTime = 0;
     private long lastEnemySpawnTime = 0;
 
+    // The number of lives left until the game is over
+    private int livesLeft = PLAYER_LIVES;
+
     private Spatial player;
     private Node bulletNode;
     private Node enemyNode;
+
+    private Sound sound;
 
     public static void main(String[] args) {
         AppMain app = new AppMain();
@@ -53,6 +63,7 @@ public class AppMain extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        setUpMusic();
         setUp2DCamera();
         turnOffStats();
         setUpPlayer();
@@ -98,6 +109,19 @@ public class AppMain extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         if (isPlayerAlive()) {
             spawnEnemies();
+            checkCollisions();
+        } else {
+            // If time to respawn
+            long currentTime = System.currentTimeMillis();
+            long dieTime = player.getUserData("dieTime");
+            if (livesLeft > 0 && currentTime - dieTime >= PLAYER_RESPAWN_TIMEOUT_MS) {
+                // spawn player
+                int centerX = settings.getWidth() / 2;
+                int centerY = settings.getHeight() / 2;
+                player.setLocalTranslation(centerX, centerY, 0);
+                guiNode.attachChild(player);
+                player.setUserData("alive", true);
+            }
         }
     }
 
@@ -131,6 +155,7 @@ public class AppMain extends SimpleApplication {
         player.setUserData("alive", true);
         player.move(settings.getWidth() / 2, settings.getHeight() / 2, 0);
         guiNode.attachChild(player);
+        sound.spawn();
     }
 
     /**
@@ -144,6 +169,10 @@ public class AppMain extends SimpleApplication {
         inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_UP));
         inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_DOWN));
+        inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_A));
+        inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("return", new KeyTrigger(KeyInput.KEY_RETURN));
         inputManager.addListener(controller, "left");
         inputManager.addListener(controller, "right");
@@ -164,6 +193,11 @@ public class AppMain extends SimpleApplication {
     private void setUpEnemies() {
         enemyNode = new Node("enemies");
         guiNode.attachChild(enemyNode);
+    }
+
+    private void setUpMusic() {
+        sound = new Sound(assetManager);
+        sound.startMusic();
     }
 
     /**
@@ -207,6 +241,8 @@ public class AppMain extends SimpleApplication {
             bullet2.setLocalTranslation(trans);
             bullet2.addControl(new BulletControl(aim, settings.getWidth(), settings.getHeight()));
             bulletNode.attachChild(bullet2);
+            
+            sound.shoot();
         }
     }
 
@@ -276,6 +312,7 @@ public class AppMain extends SimpleApplication {
         enemy.addControl(enemyControl);
         enemy.setUserData("active", false);
         enemyNode.attachChild(enemy);
+        sound.spawn();
     }
 
     private Vector3f getSpawnPosition() {
@@ -288,4 +325,47 @@ public class AppMain extends SimpleApplication {
         } while (FastMath.abs(pos.distance(player.getLocalTranslation())) < MIN_ENEMY_PLAYER_DIST);
         return pos;
     }
+
+    /**
+     * Check if the player has collided with any of the enemies and damage/kill
+     * player if necessary
+     */
+    private void checkCollisions() {
+        // Iterate over all enemies
+        for (int enemyIndex = 0; enemyIndex < enemyNode.getQuantity(); ++enemyIndex) {
+            Spatial enemy = enemyNode.getChild(enemyIndex);
+            if (enemy.getUserData("active")) {
+                // If enemy collided with player, player has died
+                if (Helper.checkCollision(player, enemy)) {
+                    killPlayer();
+                }
+                // If enemy collided with a bullet, both bullet and enemy are destroyed
+                for (int bulletIndex = 0; bulletIndex < bulletNode.getQuantity(); ++bulletIndex) {
+                    Spatial bullet = bulletNode.getChild(bulletIndex);
+                    if (Helper.checkCollision(enemy, bullet)) {
+                        sound.explosion();
+                        enemyNode.detachChild(enemy);
+                        bulletNode.detachChild(bullet);
+                        // Deleting the items change indexing as well
+                        enemyIndex--;
+                        break; // Skip going over other bullets - this enemy is done
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Kill the player
+     */
+    private void killPlayer() {
+        sound.explosion();
+        player.removeFromParent();
+        player.getControl(PlayerControl.class).reset();
+        player.setUserData("alive", false);
+        player.setUserData("dieTime", System.currentTimeMillis());
+        enemyNode.detachAllChildren();
+        livesLeft--;
+    }
+
 }

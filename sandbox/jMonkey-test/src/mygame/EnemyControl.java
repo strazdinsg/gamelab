@@ -10,6 +10,9 @@ import com.jme3.ui.Picture;
 
 /**
  * Contoller implementing behavior for an enemy
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public abstract class EnemyControl extends AbstractControl {
 
@@ -17,7 +20,7 @@ public abstract class EnemyControl extends AbstractControl {
     private static final float ACTIVATION_TIME = 1000f;
 
     // Enemy initial movement speed, relative to distance to the player
-    private static final float SPEED = 0.05f;
+    private static final float SPEED = 0.1f;
 
     protected Vector3f velocity;
     private final long spawnTime;

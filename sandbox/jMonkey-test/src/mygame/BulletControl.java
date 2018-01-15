@@ -7,6 +7,9 @@ import com.jme3.scene.control.AbstractControl;
 
 /**
  * Controls bullet behaviour (movement)
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class BulletControl extends AbstractControl {
 

@@ -6,6 +6,9 @@ import com.jme3.scene.Spatial;
 
 /**
  * Contoller implementing behavior for Seeker enemy: follow the player
+ * 
+ * The code is adapted and refactored from Tutorial "Make a Neon Vector Shooter in jMonkeyEngine"
+ * https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-jmonkeyengine--gamedev-13757
  */
 public class SeekerControl extends EnemyControl {
     private static final float ANGLE_DEVIATION = 100f;
