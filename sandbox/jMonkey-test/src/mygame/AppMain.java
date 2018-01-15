@@ -315,10 +315,24 @@ public class AppMain extends SimpleApplication {
      * player if necessary
      */
     private void checkCollisions() {
-        for (Spatial enemy : enemyNode.getChildren()) {
+        // Iterate over all enemies
+        for (int enemyIndex = 0; enemyIndex < enemyNode.getQuantity(); ++enemyIndex) {
+            Spatial enemy = enemyNode.getChild(enemyIndex);
             if (enemy.getUserData("active")) {
+                // If enemy collided with player, player has died
                 if (Helper.checkCollision(player, enemy)) {
                     killPlayer();
+                }
+                // If enemy collided with a bullet, both bullet and enemy are destroyed
+                for (int bulletIndex = 0; bulletIndex< bulletNode.getQuantity(); ++bulletIndex) {
+                    Spatial bullet = bulletNode.getChild(bulletIndex);
+                    if (Helper.checkCollision(enemy, bullet)) {
+                        enemyNode.detachChild(enemy);
+                        bulletNode.detachChild(bullet);
+                        // Deleting the items change indexing as well
+                        enemyIndex--;
+                        break; // Skip going over other bullets - this enemy is done
+                    }
                 }
             }
         }
