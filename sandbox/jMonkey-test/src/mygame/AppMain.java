@@ -82,6 +82,7 @@ public class AppMain extends SimpleApplication {
         setUpBullets();
         setUpEnemies();
         setUpBlackHoles();
+        spawnPlayer();
     }
 
     private Spatial getSpatial(String name) {
@@ -127,13 +128,12 @@ public class AppMain extends SimpleApplication {
             // If time to respawn
             long currentTime = System.currentTimeMillis();
             long dieTime = player.getUserData("dieTime");
-            if (livesLeft > 0 && currentTime - dieTime >= PLAYER_RESPAWN_TIMEOUT_MS) {
-                // spawn player
-                int centerX = settings.getWidth() / 2;
-                int centerY = settings.getHeight() / 2;
-                player.setLocalTranslation(centerX, centerY, 0);
-                guiNode.attachChild(player);
-                player.setUserData("alive", true);
+            if (currentTime - dieTime >= PLAYER_RESPAWN_TIMEOUT_MS) {
+                if (livesLeft > 0) {
+                    spawnPlayer();
+                } else {
+                    gameOver();
+                }
             }
         }
     }
@@ -165,6 +165,12 @@ public class AppMain extends SimpleApplication {
      */
     private void setUpPlayer() {
         player = getSpatial("Player");
+    }
+    
+    /**
+     * Spawn the player
+     */
+    private void spawnPlayer() {
         player.setUserData("alive", true);
         player.move(settings.getWidth() / 2, settings.getHeight() / 2, 0);
         guiNode.attachChild(player);
@@ -212,7 +218,7 @@ public class AppMain extends SimpleApplication {
         blackHoleNode = new Node("blackHoles");
         guiNode.attachChild(blackHoleNode);
     }
-    
+
     private void setUpMusic() {
         sound = new Sound(assetManager);
         sound.startMusic();
@@ -379,34 +385,56 @@ public class AppMain extends SimpleApplication {
             if (enemy.getUserData("active")) {
                 // If enemy collided with player, player has died
                 if (Helper.checkCollision(player, enemy)) {
-                    killPlayer();
+                    playerKilled();
                 }
                 // If enemy collided with a bullet, both bullet and enemy are destroyed
                 for (int bulletIndex = 0; bulletIndex < bulletNode.getQuantity(); ++bulletIndex) {
                     Spatial bullet = bulletNode.getChild(bulletIndex);
                     if (Helper.checkCollision(enemy, bullet)) {
-                        sound.explosion();
-                        enemyNode.detachChild(enemy);
+                        destroyEnemy(enemy);
                         bulletNode.detachChild(bullet);
-                        // Deleting the items change indexing as well
+                        // Deleting the enemy, next enemy will get the same index
                         enemyIndex--;
                         break; // Skip going over other bullets - this enemy is done
                     }
                 }
             }
         }
+
+        // Iterate over black holes
+        for (Spatial hole : blackHoleNode.getChildren()) {
+            if (hole.getUserData("active")) {
+                if (Helper.checkCollision(hole, player)) {
+                    playerKilled();
+                }
+            }
+            for (int enemyIndex = 0; enemyIndex < enemyNode.getQuantity(); ++enemyIndex) {
+                Spatial enemy = enemyNode.getChild(enemyIndex);
+                if (Helper.checkCollision(enemy, hole)) {
+                    destroyEnemy(enemy);
+                    // Deleting the enemy, next enemy will get the same index
+                    enemyIndex--;
+                }
+            }
+        }
+    }
+
+    private void destroyEnemy(Spatial enemy) {
+        sound.explosion();
+        enemyNode.detachChild(enemy);
     }
 
     /**
-     * Kill the player
+     * Kill the player, clean the scene
      */
-    private void killPlayer() {
+    private void playerKilled() {
         sound.explosion();
         player.removeFromParent();
         player.getControl(PlayerControl.class).reset();
         player.setUserData("alive", false);
         player.setUserData("dieTime", System.currentTimeMillis());
         enemyNode.detachAllChildren();
+        blackHoleNode.detachAllChildren();
         livesLeft--;
     }
 
@@ -416,6 +444,11 @@ public class AppMain extends SimpleApplication {
         blackHole.addControl(new BlackHoleControl("Black Hole"));
         blackHole.setUserData("active", false);
         blackHoleNode.attachChild(blackHole);
+    }
+    
+    // The game is over
+    private void gameOver() {
+        // TODO
     }
 
 }
