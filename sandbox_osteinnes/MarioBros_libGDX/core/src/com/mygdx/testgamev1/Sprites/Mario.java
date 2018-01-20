@@ -47,13 +47,13 @@ public class Mario extends Sprite {
             frames.add(new TextureRegion(getTexture(), i*16, 0, 16, 16));
         }
 
-        marioRun = new Animation(0.1f, frames);
+        marioRun = new Animation<TextureRegion>(0.1f, frames);
         frames.clear();
 
         for(int i = 4; i < 6; i++){
             frames.add(new TextureRegion(getTexture(), i*16, 0, 16, 16));
         }
-        marioJump = new Animation(0.1f, frames);
+        marioJump = new Animation<TextureRegion>(0.1f, frames);
 
         defineMario();
 
