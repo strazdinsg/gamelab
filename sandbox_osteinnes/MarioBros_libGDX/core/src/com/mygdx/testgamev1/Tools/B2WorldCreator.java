@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Sprites.Brick;
+import com.mygdx.testgamev1.Sprites.Coin;
 
 /**
  * Defines and creates the solid objects in the game world.
@@ -20,8 +22,6 @@ public class B2WorldCreator {
     // Arrays for holding tilemap-objects.
     private Array<RectangleMapObject> groundObjects;
     private Array<RectangleMapObject> pipeObjects;
-    private Array<RectangleMapObject> brickObjects;
-    private Array<RectangleMapObject> coinObjects;
 
     private Body body;
     private PolygonShape polygonShape;
@@ -51,14 +51,13 @@ public class B2WorldCreator {
         // ".get(x)" is from the "Tiled"-softwares layer number of the objects.
         groundObjects = map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class);
         pipeObjects = map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class);
-        brickObjects = map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class);
-        coinObjects = map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class);
+
 
         // Defining solid objects in the world map.
         defineObjects(groundObjects);
         defineObjects(pipeObjects);
-        defineObjects(brickObjects);
-        defineObjects(coinObjects);
+        defineCoins();
+        defineBricks();
     }
 
     private void defineObjects(Array<RectangleMapObject> objects) {
@@ -82,6 +81,30 @@ public class B2WorldCreator {
 
             body.createFixture(fixtureDef);
 
+        }
+    }
+
+    private void defineCoins() {
+
+        Array<RectangleMapObject> coinObjects;
+
+        coinObjects = map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class);
+
+        for (MapObject object : coinObjects) {
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            new Coin(world, map, rectangle, pixelsPerMeter);
+        }
+    }
+
+    private void defineBricks() {
+
+        Array<RectangleMapObject> brickObjects;
+
+        brickObjects = map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class);
+
+        for (MapObject object : brickObjects) {
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            new Brick(world, map, rectangle, pixelsPerMeter);
         }
     }
 }

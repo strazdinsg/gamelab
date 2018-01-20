@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.testgamev1.MarioBros;
 
-public class Hud {
+public class Hud implements Disposable{
 
     private MarioBros game;
 
@@ -80,5 +81,10 @@ public class Hud {
 
     public Stage getStage() {
         return this.stage;
+    }
+
+    @Override
+    public void dispose() {
+
     }
 }
