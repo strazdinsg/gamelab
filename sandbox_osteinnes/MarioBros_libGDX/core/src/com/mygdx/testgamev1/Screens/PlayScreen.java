@@ -149,17 +149,19 @@ public class PlayScreen implements Screen {
         hud.dispose();
     }
 
-    //////// HELPER METHODS /////////////////////////////////////////////////////////////
+    //////// GETTER METHODS /////////////////////////////////////////////////////////////
 
     public TextureAtlas getTextureAtlas() {
         return this.textureAtlas;
     }
 
+    //////// HELPER METHODS /////////////////////////////////////////////////////////////
+
     /**
      * Method to make sure that the camera gets updated, in case it needs to move.
      * @param dt Change in time.
      */
-    public void update(float dt) {
+    private void update(float dt) {
 
         Body playerBody = player.getB2Body();
 
@@ -183,7 +185,7 @@ public class PlayScreen implements Screen {
      * Handles the input from the user.
      * @param dt Change of time
      */
-    public void handleInput(float dt) {
+    private void handleInput(float dt) {
 
         Body playerBody = player.getB2Body();
 
