@@ -5,23 +5,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.testgamev1.MarioBros;
 import com.mygdx.testgamev1.Scenes.Hud;
 import com.mygdx.testgamev1.Sprites.Mario;
-
-import java.util.ArrayList;
+import com.mygdx.testgamev1.Tools.B2WorldCreator;
 
 /**
  * The play screen used in the game. Implements the gdx.Screen class.
@@ -48,11 +43,7 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
 
-    // Arrays for holding tilemap-objects.
-    private Array<RectangleMapObject> groundObjects;
-    private Array<RectangleMapObject> pipeObjects;
-    private Array<RectangleMapObject> brickObjects;
-    private Array<RectangleMapObject> coinObjects;
+
 
 
     public PlayScreen(MarioBros game) {
@@ -83,107 +74,13 @@ public class PlayScreen implements Screen {
         // X and Y is graviy in this context.
         world = new World(new Vector2(0,-10), true);
 
-        // Defines the player sprite.
-        player = new Mario(this.world, this.game);
-
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-        BodyDef bodyDef = new BodyDef();
-        PolygonShape polygonShape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
-        Body body;
+        // Creates the solid objects in the world (ground, bricks, pipes and coins)
+        new B2WorldCreator(this.world, this.map, this.game);
 
-       // Fetch objects from the tile-map.
-        groundObjects = map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class);
-        pipeObjects = map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class);
-        brickObjects = map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class);
-        coinObjects = map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class);
-
-        // create ground bodies/fixtures
-        for (MapObject object : groundObjects) {
-
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
-            // Defines the body type as static. (One can choose kinetic and dynamic aswell)
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            // Positions the body, where we center it.
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / pixelsPerMeter
-                    , (rectangle.getY() + rectangle.getHeight()/2) / pixelsPerMeter);
-
-            body = world.createBody(bodyDef);
-
-            polygonShape.setAsBox((rectangle.getWidth() / 2) / pixelsPerMeter
-                    , (rectangle.getHeight()/2) / pixelsPerMeter);
-
-            fixtureDef.shape = polygonShape;
-
-            body.createFixture(fixtureDef);
-        }
-
-        // create pipe bodies/fixtures
-        for (MapObject object : pipeObjects) {
-
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
-            // Defines the body type as static. (One can choose kinetic and dynamic aswell)
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            // Positions the body, where we center it.
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / pixelsPerMeter
-                    , (rectangle.getY() + rectangle.getHeight()/2) / pixelsPerMeter);
-
-            body = world.createBody(bodyDef);
-
-            polygonShape.setAsBox((rectangle.getWidth() / 2) / pixelsPerMeter
-                    , (rectangle.getHeight()/2) / pixelsPerMeter);
-
-            fixtureDef.shape = polygonShape;
-
-            body.createFixture(fixtureDef);
-        }
-
-        // create brick bodies/fixtures
-
-        for (MapObject object : brickObjects) {
-
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
-            // Defines the body type as static. (One can choose kinetic and dynamic aswell)
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            // Positions the body, where we center it.
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / pixelsPerMeter
-                    , (rectangle.getY() + rectangle.getHeight()/2) / pixelsPerMeter);
-
-            body = world.createBody(bodyDef);
-
-            polygonShape.setAsBox((rectangle.getWidth() / 2) / pixelsPerMeter
-                    , (rectangle.getHeight()/2) / pixelsPerMeter);
-
-            fixtureDef.shape = polygonShape;
-
-            body.createFixture(fixtureDef);
-        }
-
-        // create coin bodies/fixtures
-
-        for (MapObject object : coinObjects) {
-
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
-            // Defines the body type as static. (One can choose kinetic and dynamic aswell)
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            // Positions the body, where we center it.
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / pixelsPerMeter
-                    , (rectangle.getY() + rectangle.getHeight()/2) / pixelsPerMeter);
-
-            body = world.createBody(bodyDef);
-
-            polygonShape.setAsBox((rectangle.getWidth() / 2) / pixelsPerMeter
-                    , (rectangle.getHeight()/2) / pixelsPerMeter);
-
-            fixtureDef.shape = polygonShape;
-
-            body.createFixture(fixtureDef);
-        }
+        // Defines the player sprite.
+        player = new Mario(this.world, this.game);
     }
 
     @Override
