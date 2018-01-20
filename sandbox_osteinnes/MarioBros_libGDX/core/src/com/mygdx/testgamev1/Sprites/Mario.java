@@ -1,8 +1,10 @@
 package com.mygdx.testgamev1.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 
 /**
  * Creates and define the player sprite "mario".
@@ -14,12 +16,23 @@ public class Mario extends Sprite {
     private World world;
     private Body b2Body;
 
+    private TextureRegion marioStandStill;
+
     private MarioBros game;
 
-    public Mario(World world, MarioBros game) {
+    public Mario(World world, MarioBros game, PlayScreen playScreen) {
+        super(playScreen.getTextureAtlas().findRegion("little_mario"));
         this.world = world;
         this.game = game;
         defineMario();
+
+        marioStandStill = new TextureRegion(getTexture(), 0, 0, 16, 16);
+        setBounds(0, 0, 16 / game.getPixelsPerMeter(), 16 / game.getPixelsPerMeter());
+        setRegion(marioStandStill);
+    }
+
+    public void update(float dt) {
+        setPosition(b2Body.getPosition().x  - getWidth()/2, b2Body.getPosition().y - getHeight()/2);
     }
 
     public void defineMario(){
@@ -31,7 +44,7 @@ public class Mario extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(5 / game.getPixelsPerMeter());
+        circleShape.setRadius(6 / game.getPixelsPerMeter());
 
         fixtureDef.shape = circleShape;
 

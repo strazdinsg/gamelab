@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -43,10 +44,15 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
 
+    private TextureAtlas textureAtlas;
+
 
 
 
     public PlayScreen(MarioBros game) {
+
+        textureAtlas = new TextureAtlas("Mario_and_Enemies.pack");
+
         this.game = game;
 
         int gameWidth = game.getvWidth();
@@ -80,7 +86,7 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(this.world, this.map, this.game);
 
         // Defines the player sprite.
-        player = new Mario(this.world, this.game);
+        player = new Mario(this.world, this.game, this);
     }
 
     @Override
@@ -103,6 +109,11 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         box2DDebugRenderer.render(world, gameCamera.combined);
+
+        game.getBatch().setProjectionMatrix(gameCamera.combined);
+        game.getBatch().begin();
+        player.draw(game.getBatch());
+        game.getBatch().end();
 
         game.getBatch().setProjectionMatrix(hudStage.getCamera().combined);
 
@@ -140,6 +151,10 @@ public class PlayScreen implements Screen {
 
     //////// HELPER METHODS /////////////////////////////////////////////////////////////
 
+    public TextureAtlas getTextureAtlas() {
+        return this.textureAtlas;
+    }
+
     /**
      * Method to make sure that the camera gets updated, in case it needs to move.
      * @param dt Change in time.
@@ -150,6 +165,8 @@ public class PlayScreen implements Screen {
 
         // Helper method that handels input, before it does anything else.
         handleInput(dt);
+
+        player.update(dt);
 
         world.step(1/60f, 6, 2 );
 
