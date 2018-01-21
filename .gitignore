@@ -23,3 +23,4 @@ hs_err_pid*
 sandbox/jMonkey-test/nbproject/private/
 sandbox/jMonkey-test/build/
 sandbox/jMonkey-test/dist/
+/sandbox/girts-libgdx-test/.nb-gradle/
