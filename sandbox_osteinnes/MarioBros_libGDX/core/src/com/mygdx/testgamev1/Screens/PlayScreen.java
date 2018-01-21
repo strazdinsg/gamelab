@@ -1,5 +1,11 @@
 package com.mygdx.testgamev1.Screens;
 
+/*
+        This game was inspired by the libGDX-tutorial by Brent Aureli on YouTube.
+        Link to the tutorial playlist: https://www.youtube.com/playlist?list=PLZm85UZQLd2SXQzsF-a0-pPF6IWDDdrXt
+ */
+
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
