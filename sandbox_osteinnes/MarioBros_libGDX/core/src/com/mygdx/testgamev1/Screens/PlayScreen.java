@@ -23,6 +23,7 @@ import com.mygdx.testgamev1.MarioBros;
 import com.mygdx.testgamev1.Scenes.Hud;
 import com.mygdx.testgamev1.Sprites.Mario;
 import com.mygdx.testgamev1.Tools.B2WorldCreator;
+import com.mygdx.testgamev1.Tools.WorldContactListener;
 
 /**
  * The play screen is where everything that is shown on the screen is set up.
@@ -76,6 +77,7 @@ public class PlayScreen implements Screen {
         setUpWorld();
         createB2World();
         addPlayer();
+        setWorldContactListener();
 
     }
 
@@ -224,6 +226,12 @@ public class PlayScreen implements Screen {
     private void addPlayer() {
         // Defines the player sprite.
         player = new Mario(this.world, this.game, this);
+    }
+
+    private void setWorldContactListener() {
+        WorldContactListener contactListener = new WorldContactListener();
+
+        world.setContactListener(contactListener);
     }
 
     /**

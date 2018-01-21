@@ -19,7 +19,7 @@ public class MarioBros extends Game {
 
 	private static final int V_WIDTH = 400;
 	private static final int V_HEIGHT = 208;
-	private static final float pixelsPerMeter = 50;
+	private static final float pixelsPerMeter = 75;
 	private SpriteBatch batch;
 
 
@@ -52,7 +52,7 @@ public class MarioBros extends Game {
 	 * @return Virtual Width
 	 */
 	public int getvWidth() {
-		return this.V_WIDTH;
+		return V_WIDTH;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class MarioBros extends Game {
 	 * @return Virtual Height
 	 */
 	public int getvHeight() {
-		return this.V_HEIGHT;
+		return V_HEIGHT;
 	}
 
 	/**
@@ -68,6 +68,6 @@ public class MarioBros extends Game {
 	 * @return Pixels per meter
 	 */
 	public float getPixelsPerMeter() {
-		return this.pixelsPerMeter;
+		return pixelsPerMeter;
 	}
 }

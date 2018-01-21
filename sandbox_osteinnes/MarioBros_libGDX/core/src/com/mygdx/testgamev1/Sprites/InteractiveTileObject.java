@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 /**
  * @author Ole-martin Steinnes
  */
-public class InteractiveTileObjects {
+public abstract class InteractiveTileObject {
 
     protected World world;
     protected TiledMap map;
@@ -20,10 +20,11 @@ public class InteractiveTileObjects {
     protected PolygonShape polygonShape;
     protected FixtureDef fixtureDef;
     protected BodyDef bodyDef;
+    protected Fixture fixture;
 
     protected float pixelsPerMeter;
 
-    public InteractiveTileObjects(World world, TiledMap map, Rectangle bounds, float pixelsPerMeter) {
+    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, float pixelsPerMeter) {
 
         this.world = world;
         this.map = map;
@@ -31,7 +32,6 @@ public class InteractiveTileObjects {
         this.pixelsPerMeter = pixelsPerMeter;
 
         defineObjects();
-
     }
 
     private void defineObjects() {
@@ -51,6 +51,8 @@ public class InteractiveTileObjects {
 
         fixtureDef.shape = polygonShape;
 
-        body.createFixture(fixtureDef);
+        fixture = body.createFixture(fixtureDef);
     }
+
+    public abstract void onHeadHit();
 }

@@ -5,10 +5,10 @@ package com.mygdx.testgamev1.Sprites;
         Link to the tutorial playlist: https://www.youtube.com/playlist?list=PLZm85UZQLd2SXQzsF-a0-pPF6IWDDdrXt
  */
 
-
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.testgamev1.MarioBros;
@@ -23,6 +23,7 @@ import com.mygdx.testgamev1.Screens.PlayScreen;
 public class Mario extends Sprite {
     private World world;
     private Body b2Body;
+    private PlayScreen playScreen;
 
     private enum State { FALLING, JUMPING, STANDING, RUNNING };
     private State currentState;
@@ -30,11 +31,15 @@ public class Mario extends Sprite {
 
     private Animation marioRun;
     private Animation marioJump;
+    private TextureRegion marioStand;
+    private TextureRegion bigMarioJump;
+    private TextureRegion bigMarioStand;
+    private Animation bigMarioRun;
+    private Animation growMario;
+
 
     private boolean runningRight;
     private float stateTimer;
-
-    private TextureRegion marioStandStill;
 
     private MarioBros game;
 
@@ -42,15 +47,17 @@ public class Mario extends Sprite {
      * Takes the world, game and playScreen fields as input. Assign these to private fields.
      * Creates the Mario character with animations for jumping, running, falling and standing still.
      *
-     * @param world
-     * @param game
-     * @param playScreen
+     * @param world The Box2D world for the game.
+     * @param game The MarioBros object for the game.
+     * @param playScreen The PlayScreen of the game.
      */
     public Mario(World world, MarioBros game, PlayScreen playScreen) {
 
         super(playScreen.getTextureAtlas().findRegion("little_mario"));
+
         this.world = world;
         this.game = game;
+        this.playScreen = playScreen;
 
         createMario();
     }
@@ -64,6 +71,7 @@ public class Mario extends Sprite {
         addJumpAnimation();
         addStandingAnimation();
         defineMario();
+        addCollisionSensor();
         startAnimations();
     }
 
@@ -120,19 +128,19 @@ public class Mario extends Sprite {
 
             case FALLING:
 
-                region  = marioStandStill;
+                region  = marioStand;
 
                 break;
 
             case STANDING:
 
-                region = marioStandStill;
+                region = marioStand;
 
                 break;
 
             default:
 
-                region = marioStandStill;
+                region = marioStand;
 
                 break;
         }
@@ -227,7 +235,7 @@ public class Mario extends Sprite {
      * Add the standing fixture as a texture region.
      */
     private void addStandingAnimation() {
-        marioStandStill = new TextureRegion(getTexture(), 0, 0, 16, 16);
+        marioStand = new TextureRegion(getTexture(), 0, 0, 16, 16);
     }
 
     /**
@@ -255,6 +263,25 @@ public class Mario extends Sprite {
      */
     private void startAnimations() {
         setBounds(0, 0, 16 / game.getPixelsPerMeter(), 16 / game.getPixelsPerMeter());
-        setRegion(marioStandStill);
+        setRegion(marioStand);
+    }
+
+    /**
+     * Creates a collision sensor for Marios head.
+     */
+    private void addCollisionSensor() {
+        // creates sensor for collision detection for marios head
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / game.getPixelsPerMeter(), 6 / game.getPixelsPerMeter())
+                , new Vector2(2 / game.getPixelsPerMeter(), 6 / game.getPixelsPerMeter()));
+
+        fixtureDef.shape = head;
+        fixtureDef.isSensor = true;
+
+        b2Body.createFixture(fixtureDef).setUserData("head");
+
     }
 }
