@@ -5,7 +5,6 @@ package com.mygdx.testgamev1.Scenes;
         Link to the tutorial playlist: https://www.youtube.com/playlist?list=PLZm85UZQLd2SXQzsF-a0-pPF6IWDDdrXt
  */
 
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,6 +19,9 @@ import com.mygdx.testgamev1.MarioBros;
 
 /**
  * Creates the HUD. With information about time, score and which level the player is on.
+ *
+ * @author Ole-martin Steinnes
+ * @version 1
  */
 public class Hud implements Disposable{
 

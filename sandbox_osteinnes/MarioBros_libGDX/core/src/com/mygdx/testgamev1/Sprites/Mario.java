@@ -38,36 +38,39 @@ public class Mario extends Sprite {
 
     private MarioBros game;
 
+    /**
+     * Takes the world, game and playScreen fields as input. Assign these to private fields.
+     * Creates the Mario character with animations for jumping, running, falling and standing still.
+     *
+     * @param world
+     * @param game
+     * @param playScreen
+     */
     public Mario(World world, MarioBros game, PlayScreen playScreen) {
+
         super(playScreen.getTextureAtlas().findRegion("little_mario"));
         this.world = world;
         this.game = game;
 
-        currentState = State.STANDING;
-        previousState = State.STANDING;
-        stateTimer = 0;
-        runningRight = true;
-
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-        for (int i = 1; i < 4; i++){
-            frames.add(new TextureRegion(getTexture(), i*16, 0, 16, 16));
-        }
-
-        marioRun = new Animation<TextureRegion>(0.1f, frames);
-        frames.clear();
-
-        for(int i = 4; i < 6; i++){
-            frames.add(new TextureRegion(getTexture(), i*16, 0, 16, 16));
-        }
-        marioJump = new Animation<TextureRegion>(0.1f, frames);
-
-        defineMario();
-
-        marioStandStill = new TextureRegion(getTexture(), 0, 0, 16, 16);
-        setBounds(0, 0, 16 / game.getPixelsPerMeter(), 16 / game.getPixelsPerMeter());
-        setRegion(marioStandStill);
+        createMario();
     }
 
+    /**
+     * Creates the Mario character.
+     */
+    private void createMario() {
+        setStates();
+        addRunAnimation();
+        addJumpAnimation();
+        addStandingAnimation();
+        defineMario();
+        startAnimations();
+    }
+
+    /**
+     * Updates position and region when there is change in time.
+     * @param dt Change in time.
+     */
     public void update(float dt) {
         setPosition(b2Body.getPosition().x  - getWidth()/2, b2Body.getPosition().y - getHeight()/2);
         setRegion(getFrame(dt));
@@ -75,16 +78,28 @@ public class Mario extends Sprite {
 
     ///////// GETTER METHODS /////////////////////////////////////////////////////////////
 
+    /**
+     * Returns the Box2D world.
+     *
+     * @return the Bux2D world.
+     */
     public World getWorld() {
         return this.world;
     }
 
+    /**
+     * Returns the Box2D-box body.
+     * @return the Box2D-box body.
+     */
     public Body getB2Body() {
         return this.b2Body;
     }
 
-    ///////// HELPER METHODS /////////////////////////////////////////////////////////////
-
+    /**
+     * Takes in change in time as a field, and returns the frame.
+     * @param dt Change in time.
+     * @return the current frame.
+     */
     private TextureRegion getFrame(float dt) {
         currentState = getState();
 
@@ -122,19 +137,28 @@ public class Mario extends Sprite {
                 break;
         }
 
-        if ((b2Body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
+        boolean isRunningLeft = (b2Body.getLinearVelocity().x < 0 || !runningRight);
+        boolean isRunningRight = (b2Body.getLinearVelocity().x > 0 || runningRight);
+
+        if (isRunningLeft && !region.isFlipX()) {
             region.flip(true,false);
             runningRight = false;
-        } else if ((b2Body.getLinearVelocity().x > 0 || runningRight) && region.isFlipX()) {
+        } else if (isRunningRight && region.isFlipX()) {
             region.flip(true, false);
             runningRight = true;
         }
 
         stateTimer = currentState == previousState ? stateTimer + dt : 0;
+
         previousState = currentState;
+
         return region;
     }
 
+    /**
+     * Returns the current state.
+     * @return the current state.
+     */
     private State getState() {
 
         boolean isMovingUpward = (b2Body.getLinearVelocity().y > 0);
@@ -161,6 +185,54 @@ public class Mario extends Sprite {
         }
     }
 
+    ///////// HELPER METHODS /////////////////////////////////////////////////////////////
+
+    /**
+     * Sets the initial states.
+     */
+    private void setStates() {
+        currentState = State.STANDING;
+        previousState = State.STANDING;
+        stateTimer = 0;
+        runningRight = true;
+    }
+
+    /**
+     * Adds the run textures as an animation.
+     */
+    private void addRunAnimation() {
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        for (int i = 1; i < 4; i++){
+            frames.add(new TextureRegion(getTexture(), i*16, 0, 16, 16));
+        }
+
+        marioRun = new Animation<TextureRegion>(0.1f, frames);
+        frames.clear();
+    }
+
+    /**
+     * Add the jump textures as an animation.
+     */
+    private void addJumpAnimation() {
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+
+        for(int i = 4; i < 6; i++){
+            frames.add(new TextureRegion(getTexture(), i*16, 0, 16, 16));
+        }
+        marioJump = new Animation<TextureRegion>(0.1f, frames);
+        frames.clear();
+    }
+
+    /**
+     * Add the standing fixture as a texture region.
+     */
+    private void addStandingAnimation() {
+        marioStandStill = new TextureRegion(getTexture(), 0, 0, 16, 16);
+    }
+
+    /**
+     * Defining Box2D-box for Mario-character.
+     */
     private void defineMario(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(32 / game.getPixelsPerMeter(), 32 / game.getPixelsPerMeter());
@@ -176,5 +248,13 @@ public class Mario extends Sprite {
 
         b2Body.createFixture(fixtureDef);
 
+    }
+
+    /**
+     * Initiate animation.
+     */
+    private void startAnimations() {
+        setBounds(0, 0, 16 / game.getPixelsPerMeter(), 16 / game.getPixelsPerMeter());
+        setRegion(marioStandStill);
     }
 }

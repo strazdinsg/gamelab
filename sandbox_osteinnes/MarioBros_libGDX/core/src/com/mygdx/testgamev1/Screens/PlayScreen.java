@@ -5,7 +5,6 @@ package com.mygdx.testgamev1.Screens;
         Link to the tutorial playlist: https://www.youtube.com/playlist?list=PLZm85UZQLd2SXQzsF-a0-pPF6IWDDdrXt
  */
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -26,7 +25,9 @@ import com.mygdx.testgamev1.Sprites.Mario;
 import com.mygdx.testgamev1.Tools.B2WorldCreator;
 
 /**
- * The play screen used in the game. Implements the gdx.Screen class.
+ * The play screen is where everything that is shown on the screen is set up.
+ * The camera(s) gets set up, as well as objects get defined as physical-objects with friction
+ * gravity and density (box2d).
  *
  * @author Ole-martin Steinnes
  * @version 1
@@ -52,47 +53,30 @@ public class PlayScreen implements Screen {
 
     private TextureAtlas textureAtlas;
 
+    private float pixelsPerMeter;
 
-
-
+    /**
+     * Constructs the play screen.
+     * @param game The game-object that the PlayScreen is built on.
+     */
     public PlayScreen(MarioBros game) {
-
-        textureAtlas = new TextureAtlas("Mario_and_Enemies.pack");
 
         this.game = game;
 
-        int gameWidth = game.getvWidth();
-        int gameHeight = game.getvHeight();
-        float pixelsPerMeter = game.getPixelsPerMeter();
+        initiatePlayScreen();
 
-        // Sets up camera
-        gameCamera = new OrthographicCamera();
-        gamePort = new FitViewport(gameWidth / pixelsPerMeter
-                ,gameHeight / pixelsPerMeter ,gameCamera);
+    }
 
-        // Creates the HUD
-        hud = new Hud(game.getBatch(), this.game);
+    private void initiatePlayScreen() {
 
+        loadTextures();
+        setUpCamera();
+        createHud();
+        loadMap();
+        setUpWorld();
+        createB2World();
+        addPlayer();
 
-
-        // Loads map, based on the camera.
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("level1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / pixelsPerMeter);
-
-        // Sets the camera position correctly at the start of the game
-        gameCamera.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
-
-        // X and Y is graviy in this context.
-        world = new World(new Vector2(0,-10), true);
-
-        box2DDebugRenderer = new Box2DDebugRenderer();
-
-        // Creates the solid objects in the world (ground, bricks, pipes and coins)
-        new B2WorldCreator(this.world, this.map, this.game);
-
-        // Defines the player sprite.
-        player = new Mario(this.world, this.game, this);
     }
 
     @Override
@@ -157,11 +141,90 @@ public class PlayScreen implements Screen {
 
     //////// GETTER METHODS /////////////////////////////////////////////////////////////
 
+    /**
+     * Returns the texture atlas.
+     * The texture atlas contains every moving objects textures. In this case
+     * it contains Mario and his enemies.
+     *
+     * @return the texture atlas.
+     */
     public TextureAtlas getTextureAtlas() {
         return this.textureAtlas;
     }
 
     //////// HELPER METHODS /////////////////////////////////////////////////////////////
+
+    /**
+     * Loads the textures of Mario and his enemies from the assets-folder.
+     */
+    private void loadTextures() {
+        textureAtlas = new TextureAtlas("Mario_and_Enemies.pack");
+    }
+
+    /**
+     * Creates the HUD of the game.
+     */
+    private void createHud() {
+        // Creates the HUD
+        hud = new Hud(game.getBatch(), this.game);
+    }
+
+    /**
+     * Sets up the camera, and it's posiition at the start of the game.
+     */
+    private void setUpCamera() {
+        int gameWidth = game.getvWidth();
+        int gameHeight = game.getvHeight();
+        pixelsPerMeter = game.getPixelsPerMeter();
+
+        // Sets up camera
+        gameCamera = new OrthographicCamera();
+        gamePort = new FitViewport(gameWidth / pixelsPerMeter
+                ,gameHeight / pixelsPerMeter ,gameCamera);
+
+        // Sets the camera position correctly at the start of the game
+        gameCamera.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
+    }
+
+    /**
+     * Loads the map, made in Tiled.
+     */
+    private void loadMap() {
+
+        // Loads map, based on the camera.
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("level1.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / pixelsPerMeter);
+
+    }
+
+    /**
+     * Sets up the Box2D-world
+     */
+    private void setUpWorld() {
+        // X and Y is graviy in this context.
+        world = new World(new Vector2(0,-10), true);
+
+        box2DDebugRenderer = new Box2DDebugRenderer();
+    }
+
+    /**
+     * Creates the Box2D-world.
+     */
+    private void createB2World() {
+
+        // Creates the solid objects in the world (ground, bricks, pipes and coins)
+        new B2WorldCreator(this.world, this.map, this.game);
+
+    }
+
+    /**
+     * Adds the player to the game (both the texture and box2d-component).
+     */
+    private void addPlayer() {
+        // Defines the player sprite.
+        player = new Mario(this.world, this.game, this);
+    }
 
     /**
      * Method to make sure that the camera gets updated, in case it needs to move.
@@ -171,7 +234,7 @@ public class PlayScreen implements Screen {
 
         Body playerBody = player.getB2Body();
 
-        // Helper method that handels input, before it does anything else.
+        // Helper method that handles input, before it does anything else.
         handleInput(dt);
 
         player.update(dt);

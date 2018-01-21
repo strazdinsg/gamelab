@@ -19,7 +19,7 @@ public class MarioBros extends Game {
 
 	private static final int V_WIDTH = 400;
 	private static final int V_HEIGHT = 208;
-	private static final float pixelsPerMeter = 100;
+	private static final float pixelsPerMeter = 50;
 	private SpriteBatch batch;
 
 
