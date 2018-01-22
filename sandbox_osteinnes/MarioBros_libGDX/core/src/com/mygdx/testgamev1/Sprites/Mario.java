@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.testgamev1.MarioBros;
 import com.mygdx.testgamev1.Screens.PlayScreen;
+import com.badlogic.gdx.physics.box2d.Filter;
 
 /**
  * Creates and define the player sprite "mario".
@@ -243,14 +244,17 @@ public class Mario extends Sprite {
      */
     private void defineMario(){
         BodyDef bodyDef = new BodyDef();
+        FixtureDef fixtureDef = new FixtureDef();
+        CircleShape circleShape = new CircleShape();
+
         bodyDef.position.set(32 / game.getPixelsPerMeter(), 32 / game.getPixelsPerMeter());
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         b2Body = world.createBody(bodyDef);
 
-        FixtureDef fixtureDef = new FixtureDef();
-        CircleShape circleShape = new CircleShape();
         circleShape.setRadius(6 / game.getPixelsPerMeter());
+
+        setMarioFilter(fixtureDef);
 
         fixtureDef.shape = circleShape;
 
@@ -274,6 +278,8 @@ public class Mario extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
 
+
+
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / game.getPixelsPerMeter(), 6 / game.getPixelsPerMeter())
                 , new Vector2(2 / game.getPixelsPerMeter(), 6 / game.getPixelsPerMeter()));
@@ -283,5 +289,20 @@ public class Mario extends Sprite {
 
         b2Body.createFixture(fixtureDef).setUserData("head");
 
+    }
+
+    /**
+     * Sets the fixture definition filter for the Mario character.
+     * Sets the category bit: the fixture itself
+     * Sets the mask bits: the fixtures it can collide with.
+     * @param fixtureDef fixture definiton of mario.
+     */
+    private void setMarioFilter(FixtureDef fixtureDef) {
+        // Creating category and what he can collide with
+        // The category is: "what is this fixture"
+        fixtureDef.filter.categoryBits = game.getMarioBit();
+
+        // What mario can collide with.
+        fixtureDef.filter.maskBits = (short) (game.getDefaultBit() | game.getBrickBit() | game.getCoinBit());
     }
 }

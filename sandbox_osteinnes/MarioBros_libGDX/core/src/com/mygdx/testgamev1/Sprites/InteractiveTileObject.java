@@ -2,8 +2,10 @@ package com.mygdx.testgamev1.Sprites;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.testgamev1.MarioBros;
 
 
 /**
@@ -21,15 +23,17 @@ public abstract class InteractiveTileObject {
     protected FixtureDef fixtureDef;
     protected BodyDef bodyDef;
     protected Fixture fixture;
+    protected MarioBros game;
 
     protected float pixelsPerMeter;
 
-    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, float pixelsPerMeter) {
+    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, MarioBros game) {
 
         this.world = world;
         this.map = map;
         this.bounds = bounds;
-        this.pixelsPerMeter = pixelsPerMeter;
+        this.game = game;
+        pixelsPerMeter = game.getPixelsPerMeter();
 
         defineObjects();
     }
@@ -55,4 +59,17 @@ public abstract class InteractiveTileObject {
     }
 
     public abstract void onHeadHit();
+
+    public void setCategoryFilter(short filterBit) {
+        Filter filter = new Filter();
+        filter.categoryBits = filterBit;
+        fixture.setFilterData(filter);
+    }
+
+    /**
+     * Returns the cell Mario collides with.
+     * Each sub-class determines what should happen to that cell.
+     * @return the cell Mario collides with.
+     */
+    public abstract TiledMapTileLayer.Cell getCell();
 }

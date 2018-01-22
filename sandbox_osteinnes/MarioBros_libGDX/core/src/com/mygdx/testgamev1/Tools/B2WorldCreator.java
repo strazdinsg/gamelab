@@ -128,7 +128,7 @@ public class B2WorldCreator {
 
         for (MapObject object : coinObjects) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            new Coin(world, map, rectangle, pixelsPerMeter);
+            new Coin(world, map, rectangle, game);
         }
     }
 
@@ -143,7 +143,7 @@ public class B2WorldCreator {
 
         for (MapObject object : brickObjects) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            new Brick(world, map, rectangle, pixelsPerMeter);
+            new Brick(world, map, rectangle, game);
         }
     }
 }

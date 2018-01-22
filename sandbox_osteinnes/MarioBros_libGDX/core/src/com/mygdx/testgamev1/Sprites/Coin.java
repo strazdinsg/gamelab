@@ -7,8 +7,10 @@ package com.mygdx.testgamev1.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.testgamev1.MarioBros;
 
 /**
  * The Coin-class extends InteractiveTileObject. This is because the Brick and Coin objects
@@ -26,15 +28,21 @@ public class Coin extends InteractiveTileObject {
      * @param world World of the box2d restraints
      * @param map Map of the game.
      * @param bounds Bounds of the map.
-     * @param pixelsPerMeter Pixels Per Meter unit from the game settings.
+     * @param game The Game object
      */
-    public Coin(World world, TiledMap map, Rectangle bounds, float pixelsPerMeter) {
-        super(world, map, bounds, pixelsPerMeter);
+    public Coin(World world, TiledMap map, Rectangle bounds, MarioBros game) {
+        super(world, map, bounds, game);
         fixture.setUserData(this);
+        setCategoryFilter(game.getCoinBit());
     }
 
     @Override
     public void onHeadHit() {
         Gdx.app.log("Coin", "Collision");
+    }
+
+    @Override
+    public TiledMapTileLayer.Cell getCell() {
+        return null;
     }
 }

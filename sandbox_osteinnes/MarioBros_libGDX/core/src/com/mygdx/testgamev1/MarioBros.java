@@ -19,7 +19,15 @@ public class MarioBros extends Game {
 
 	private static final int V_WIDTH = 400;
 	private static final int V_HEIGHT = 208;
-	private static final float pixelsPerMeter = 75;
+	private static final float pixelsPerMeter = 100;
+
+
+	private static final short DEFAULT_BIT = 1;
+	private static final short MARIO_BIT = 2;
+	private static final short BRICK_BIT = 4;
+	private static final short COIN_BIT = 8;
+	private static final short DESTROYED_BIT = 16;
+
 	private SpriteBatch batch;
 
 
@@ -69,5 +77,45 @@ public class MarioBros extends Game {
 	 */
 	public float getPixelsPerMeter() {
 		return pixelsPerMeter;
+	}
+
+	/**
+	 * Returns the default bit constant.
+	 * @return the default bit constant.
+	 */
+	public static short getDefaultBit() {
+		return DEFAULT_BIT;
+	}
+
+	/**
+	 * Returns the Mario bit constant.
+	 * @return the Mario bit constant.
+	 */
+	public static short getMarioBit() {
+		return MARIO_BIT;
+	}
+
+	/**
+	 * Returns the Brick bit constant.
+	 * @return the Brick bit constant.
+	 */
+	public static short getBrickBit() {
+		return BRICK_BIT;
+	}
+
+	/**
+	 * Returns the Coin bit constant
+	 * @return the Coin bit constant
+	 */
+	public static short getCoinBit() {
+		return COIN_BIT;
+	}
+
+	/**
+	 * Returns the Destroyed bit constant.
+	 * @return the Destroyed bit constant.
+	 */
+	public static short getDestroyedBit() {
+		return DESTROYED_BIT;
 	}
 }
