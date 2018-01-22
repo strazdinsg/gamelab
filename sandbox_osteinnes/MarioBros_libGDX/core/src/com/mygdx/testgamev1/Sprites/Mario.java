@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.testgamev1.MarioBros;
 import com.mygdx.testgamev1.Screens.PlayScreen;
-import com.badlogic.gdx.physics.box2d.Filter;
 
 /**
  * Creates and define the player sprite "mario".

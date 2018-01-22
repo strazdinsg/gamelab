@@ -76,6 +76,22 @@ public class Hud implements Disposable{
 
     }
 
+    /**
+     * Updates as long as the game is running.
+     * @param dt Change of time
+     */
+    public void update(float dt) {
+
+
+        // Time counter, reduces timeCount-field by one for each second that passes.
+        timeCount += dt;
+        if (timeCount >= 1) {
+            worldTimer--;
+            countdownLabel.setText(String.format("%03d", worldTimer));
+            timeCount = 0;
+        }
+    }
+
 
     //////////// GETTER METHODS /////////////////////////////////////////
 
