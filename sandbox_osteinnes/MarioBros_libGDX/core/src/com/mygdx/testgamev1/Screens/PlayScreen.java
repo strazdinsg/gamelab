@@ -154,6 +154,14 @@ public class PlayScreen implements Screen {
         return this.textureAtlas;
     }
 
+    /**
+     * Returns the hud of the play screen.
+     * @return the hud of the play screen.
+     */
+    public Hud getHud() {
+        return hud;
+    }
+
     //////// HELPER METHODS /////////////////////////////////////////////////////////////
 
     /**

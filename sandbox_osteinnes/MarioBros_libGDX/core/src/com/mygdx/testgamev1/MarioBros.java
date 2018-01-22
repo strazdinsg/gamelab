@@ -28,13 +28,17 @@ public class MarioBros extends Game {
 	private static final short COIN_BIT = 8;
 	private static final short DESTROYED_BIT = 16;
 
+	private PlayScreen playScreen;
+
 	private SpriteBatch batch;
 
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		playScreen = new PlayScreen(this);
+
+		setScreen(playScreen);
 	}
 
 	@Override
@@ -117,5 +121,13 @@ public class MarioBros extends Game {
 	 */
 	public static short getDestroyedBit() {
 		return DESTROYED_BIT;
+	}
+
+	/**
+	 * Returns the play screen of the game
+	 * @return the play screen of the game
+	 */
+	public PlayScreen getPlayScreen() {
+		return playScreen;
 	}
 }

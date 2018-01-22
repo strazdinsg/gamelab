@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Scenes.Hud;
 
 /**
  * The Brick-class extends InteractiveTileObject. This is because the Brick and Coin objects
@@ -43,6 +44,10 @@ public class Brick extends InteractiveTileObject {
 
         // Removes the brick texture.
         getCell().setTile(null);
+
+        Hud hud = game.getPlayScreen().getHud();
+
+        hud.addScore(200);
     }
 
     @Override

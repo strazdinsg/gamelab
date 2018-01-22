@@ -92,6 +92,11 @@ public class Hud implements Disposable{
         }
     }
 
+    public void addScore(int value) {
+        score += value;
+        scoreLabel.setText(String.format("%06d", score));
+    }
+
 
     //////////// GETTER METHODS /////////////////////////////////////////
 
