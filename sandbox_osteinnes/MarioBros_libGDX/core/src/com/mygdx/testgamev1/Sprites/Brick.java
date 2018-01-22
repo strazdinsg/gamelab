@@ -34,6 +34,7 @@ public class Brick extends InteractiveTileObject {
     public Brick(World world, TiledMap map, Rectangle bounds, MarioBros game) {
         super(world, map, bounds, game);
         fixture.setUserData(this);
+        isActive = true;
         setCategoryFilter(game.getBrickBit());
     }
 
@@ -44,10 +45,13 @@ public class Brick extends InteractiveTileObject {
 
         // Removes the brick texture.
         getCell().setTile(null);
+        if (isActive) {
+            Hud hud = game.getPlayScreen().getHud();
 
-        Hud hud = game.getPlayScreen().getHud();
+            hud.addScore(200);
 
-        hud.addScore(200);
+            isActive = false;
+        }
     }
 
     @Override

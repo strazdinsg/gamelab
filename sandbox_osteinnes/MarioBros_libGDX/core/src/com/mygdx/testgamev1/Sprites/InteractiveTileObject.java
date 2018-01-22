@@ -25,6 +25,8 @@ public abstract class InteractiveTileObject {
     protected Fixture fixture;
     protected MarioBros game;
 
+    protected boolean isActive;
+
     protected float pixelsPerMeter;
 
     public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, MarioBros game) {

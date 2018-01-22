@@ -33,6 +33,7 @@ public class Coin extends InteractiveTileObject {
     public Coin(World world, TiledMap map, Rectangle bounds, MarioBros game) {
         super(world, map, bounds, game);
         fixture.setUserData(this);
+        isActive = true;
         setCategoryFilter(game.getCoinBit());
     }
 
