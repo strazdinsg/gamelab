@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 
 
 /**
@@ -23,22 +23,29 @@ public abstract class InteractiveTileObject {
     protected FixtureDef fixtureDef;
     protected BodyDef bodyDef;
     protected Fixture fixture;
-    protected MarioBros game;
+    protected PlayScreen playScreen;
 
     protected boolean isActive;
 
     protected float pixelsPerMeter;
 
-    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, MarioBros game) {
+    public InteractiveTileObject(PlayScreen playScreen) {
 
-        this.world = world;
-        this.map = map;
+        this.playScreen = playScreen;
+        this.world = playScreen.getWorld();
+        this.map = playScreen.getMap();
+        pixelsPerMeter = playScreen.getGame().getPixelsPerMeter();
+
+    }
+
+    public void attachToWorld(Rectangle bounds) {
         this.bounds = bounds;
-        this.game = game;
-        pixelsPerMeter = game.getPixelsPerMeter();
 
         defineObjects();
+        initObject();
     }
+
+    public abstract void initObject();
 
     private void defineObjects() {
 
@@ -84,8 +91,8 @@ public abstract class InteractiveTileObject {
         original size, in order to find the correct cell he collided with. Then we
         divide it by the Tile-size to get the correct coordinates of the cell.
          */
-        int xCoordinates = (int) (body.getPosition().x * game.getPixelsPerMeter() / 16);
-        int yCoordinates = (int)( body.getPosition().y * game.getPixelsPerMeter() / 16);
+        int xCoordinates = (int) (body.getPosition().x * pixelsPerMeter / 16);
+        int yCoordinates = (int)( body.getPosition().y * pixelsPerMeter / 16);
 
         return layer.getCell(xCoordinates, yCoordinates);
     }

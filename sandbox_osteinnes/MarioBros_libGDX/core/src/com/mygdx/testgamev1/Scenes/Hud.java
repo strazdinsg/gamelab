@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 
 /**
  * Creates the HUD. With information about time, score and which level the player is on.
@@ -26,6 +27,7 @@ import com.mygdx.testgamev1.MarioBros;
 public class Hud implements Disposable{
 
     private MarioBros game;
+    private PlayScreen playScreen;
 
     private Stage stage;
     private SpriteBatch spriteBatch;
@@ -47,13 +49,13 @@ public class Hud implements Disposable{
 
     /**
      * Takes in the MarioBros and SpriteBatch fields. Creates the HUD.
-     * @param sb The SpriteBatch object to base the stage on.
-     * @param game The MarioBros object the HUD is for.
+     * @param playScreen is the screen the HUD belongs to.
      */
-    public Hud(SpriteBatch sb , MarioBros game) {
+    public Hud(PlayScreen playScreen) {
 
-        this.spriteBatch = sb;
-        this.game = game;
+        this.playScreen = playScreen;
+        this.game = playScreen.getGame();
+        this.spriteBatch = game.getBatch();
 
         createHud();
 

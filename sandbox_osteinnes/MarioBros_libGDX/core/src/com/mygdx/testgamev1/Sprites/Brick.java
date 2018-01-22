@@ -6,11 +6,8 @@ package com.mygdx.testgamev1.Sprites;
  */
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.testgamev1.MarioBros;
 import com.mygdx.testgamev1.Scenes.Hud;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 
 /**
  * The Brick-class extends InteractiveTileObject. This is because the Brick and Coin objects
@@ -25,27 +22,29 @@ public class Brick extends InteractiveTileObject {
      * Constructor in the Brick-class. Takes in fields for creation of defined Box2D-boxes.
      * There will also be implemented responses to interactions with the player, in the future.
      *
-     * @param world World of the box2d restraints
-     * @param map Map of the game.
-     * @param bounds Bounds of the map.
-     * @param game The game object
+     * @param playScreen Screen the world is attached to.
      */
-    public Brick(World world, TiledMap map, Rectangle bounds, MarioBros game) {
-        super(world, map, bounds, game);
+    public Brick(PlayScreen playScreen) {
+        super(playScreen);
+
+    }
+
+    @Override
+    public void initObject() {
         fixture.setUserData(this);
         isActive = true;
-        setCategoryFilter(game.getBrickBit());
+        setCategoryFilter(playScreen.getGame().getBrickBit());
     }
 
     @Override
     public void onHeadHit() {
         Gdx.app.log("Brick", "Collision");
-        setCategoryFilter(game.getDestroyedBit());
+        setCategoryFilter(playScreen.getGame().getDestroyedBit());
 
         // Removes the brick texture.
         getCell().setTile(null);
         if (isActive) {
-            Hud hud = game.getPlayScreen().getHud();
+            Hud hud = playScreen.getHud();
 
             hud.addScore(200);
 

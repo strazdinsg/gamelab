@@ -6,13 +6,9 @@ package com.mygdx.testgamev1.Sprites;
  */
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.testgamev1.MarioBros;
 import com.mygdx.testgamev1.Scenes.Hud;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 
 /**
  * The Coin-class extends InteractiveTileObject. This is because the Brick and Coin objects
@@ -37,20 +33,22 @@ public class Coin extends InteractiveTileObject {
      * Constructor in the Coin-class. Takes in fields for creation of defined Box2D-boxes.
      * There will also be implemented responses to interactions with the player, in the future.
      *
-     * @param world World of the box2d restraints
-     * @param map Map of the game.
-     * @param bounds Bounds of the map.
-     * @param game The Game object
+     * @param playScreen Screen the world is attached to.
      */
-    public Coin(World world, TiledMap map, Rectangle bounds, MarioBros game) {
-        super(world, map, bounds, game);
+    public Coin(PlayScreen playScreen) {
+        super(playScreen);
 
+
+    }
+
+    @Override
+    public void initObject() {
         tileSet = map.getTileSets().getTileSet("tileset_gutter");
         fixture.setUserData(this);
 
         isActive = true;
 
-        setCategoryFilter(game.getCoinBit());
+        setCategoryFilter(playScreen.getGame().getCoinBit());
     }
 
     @Override
@@ -59,7 +57,7 @@ public class Coin extends InteractiveTileObject {
         getCell().setTile(tileSet.getTile(BLANK_COIN));
 
         if (isActive) {
-            Hud hud = game.getPlayScreen().getHud();
+            Hud hud = playScreen.getHud();
             hud.addScore(100);
             isActive = false;
         }

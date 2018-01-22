@@ -47,17 +47,16 @@ public class Mario extends Sprite {
      * Takes the world, game and playScreen fields as input. Assign these to private fields.
      * Creates the Mario character with animations for jumping, running, falling and standing still.
      *
-     * @param world The Box2D world for the game.
-     * @param game The MarioBros object for the game.
      * @param playScreen The PlayScreen of the game.
      */
-    public Mario(World world, MarioBros game, PlayScreen playScreen) {
+    public Mario(PlayScreen playScreen) {
 
         super(playScreen.getTextureAtlas().findRegion("little_mario"));
 
-        this.world = world;
-        this.game = game;
+
         this.playScreen = playScreen;
+        this.world = playScreen.getWorld();
+        this.game = playScreen.getGame();
 
         createMario();
     }

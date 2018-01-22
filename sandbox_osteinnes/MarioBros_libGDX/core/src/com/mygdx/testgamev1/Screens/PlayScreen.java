@@ -162,6 +162,18 @@ public class PlayScreen implements Screen {
         return hud;
     }
 
+    public MarioBros getGame() {
+        return game;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
     //////// HELPER METHODS /////////////////////////////////////////////////////////////
 
     /**
@@ -176,7 +188,7 @@ public class PlayScreen implements Screen {
      */
     private void createHud() {
         // Creates the HUD
-        hud = new Hud(game.getBatch(), this.game);
+        hud = new Hud(this);
     }
 
     /**
@@ -224,7 +236,7 @@ public class PlayScreen implements Screen {
     private void createB2World() {
 
         // Creates the solid objects in the world (ground, bricks, pipes and coins)
-        new B2WorldCreator(this.world, this.map, this.game);
+        new B2WorldCreator(this);
 
     }
 
@@ -233,7 +245,7 @@ public class PlayScreen implements Screen {
      */
     private void addPlayer() {
         // Defines the player sprite.
-        player = new Mario(this.world, this.game, this);
+        player = new Mario(this);
     }
 
     private void setWorldContactListener() {
