@@ -7,7 +7,6 @@ package com.mygdx.testgamev1.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.testgamev1.MarioBros;
@@ -52,24 +51,5 @@ public class Brick extends InteractiveTileObject {
 
             isActive = false;
         }
-    }
-
-    @Override
-    public TiledMapTileLayer.Cell getCell() {
-
-        // Retrieves the correct layer(Brick) which is 1.
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(1);
-
-        /*
-        Since the Tiled-map was scaled down (for the Box2D physics) we now need to
-        scale it back to it's original size. Since we now want to remove the brick
-        texture at the cell Mario collides with. We need the map rescaled to it's
-        original size, in order to find the correct cell he collided with. Then we
-        divide it by the Tile-size to get the correct coordinates of the cell.
-         */
-        int xCoordinates = (int) (body.getPosition().x * game.getPixelsPerMeter() / 16);
-        int yCoordinates = (int)( body.getPosition().y * game.getPixelsPerMeter() / 16);
-
-        return layer.getCell(xCoordinates, yCoordinates);
     }
 }

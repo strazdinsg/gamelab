@@ -8,9 +8,11 @@ package com.mygdx.testgamev1.Sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Scenes.Hud;
 
 /**
  * The Coin-class extends InteractiveTileObject. This is because the Brick and Coin objects
@@ -21,6 +23,16 @@ import com.mygdx.testgamev1.MarioBros;
  */
 public class Coin extends InteractiveTileObject {
 
+    // The tile set we want to use after collision
+    private static TiledMapTileSet tileSet;
+
+    /*
+    The unique tile ID in the tile set.
+    Tiled starts counting from zero, while gdx tile sets starts
+    counting on the 1 index. Which means the Blank coin texture had
+    an ID of 27 in Tiled. However, in gdx we call it 28.
+    */
+    private final int BLANK_COIN = 28;
     /**
      * Constructor in the Coin-class. Takes in fields for creation of defined Box2D-boxes.
      * There will also be implemented responses to interactions with the player, in the future.
@@ -32,18 +44,24 @@ public class Coin extends InteractiveTileObject {
      */
     public Coin(World world, TiledMap map, Rectangle bounds, MarioBros game) {
         super(world, map, bounds, game);
+
+        tileSet = map.getTileSets().getTileSet("tileset_gutter");
         fixture.setUserData(this);
+
         isActive = true;
+
         setCategoryFilter(game.getCoinBit());
     }
 
     @Override
     public void onHeadHit() {
         Gdx.app.log("Coin", "Collision");
-    }
+        getCell().setTile(tileSet.getTile(BLANK_COIN));
 
-    @Override
-    public TiledMapTileLayer.Cell getCell() {
-        return null;
+        if (isActive) {
+            Hud hud = game.getPlayScreen().getHud();
+            hud.addScore(100);
+            isActive = false;
+        }
     }
 }
