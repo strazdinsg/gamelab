@@ -5,29 +5,61 @@ package com.mygdx.testgamev1.Sprites;
         Link to the tutorial playlist: https://www.youtube.com/playlist?list=PLZm85UZQLd2SXQzsF-a0-pPF6IWDDdrXt
  */
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.mygdx.testgamev1.Scenes.Hud;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 
 /**
- * The Coin-class extends InteractiveTileObjects. This is because the Brick and Coin objects
+ * The Coin-class extends InteractiveTileObject. This is because the Brick and Coin objects
  * will both behave similarly. Therefore their common traits can be written in a parent-class (r: super)
  *
  * @author Ole-martin Steinnes
  * @version 1
  */
-public class Coin extends InteractiveTileObjects {
+public class Coin extends InteractiveTileObject {
 
+    // The tile set we want to use after collision
+    private static TiledMapTileSet tileSet;
+
+    /*
+    The unique tile ID in the tile set.
+    Tiled starts counting from zero, while gdx tile sets starts
+    counting on the 1 index. Which means the Blank coin texture had
+    an ID of 27 in Tiled. However, in gdx we call it 28.
+    */
+    private final int BLANK_COIN = 28;
     /**
      * Constructor in the Coin-class. Takes in fields for creation of defined Box2D-boxes.
      * There will also be implemented responses to interactions with the player, in the future.
      *
-     * @param world World of the box2d restraints
-     * @param map Map of the game.
-     * @param bounds Bounds of the map.
-     * @param pixelsPerMeter Pixels Per Meter unit from the game settings.
+     * @param playScreen Screen the world is attached to.
      */
-    public Coin(World world, TiledMap map, Rectangle bounds, float pixelsPerMeter) {
-        super(world, map, bounds, pixelsPerMeter);
+    public Coin(PlayScreen playScreen) {
+        super(playScreen);
+
+
+    }
+
+    @Override
+    public void initObject() {
+        tileSet = map.getTileSets().getTileSet("tileset_gutter");
+        fixture.setUserData(this);
+
+        isActive = true;
+
+        setCategoryFilter(playScreen.getGame().getCoinBit());
+    }
+
+    @Override
+    public void onHeadHit() {
+        Gdx.app.log("Coin", "Collision");
+        getCell().setTile(tileSet.getTile(BLANK_COIN));
+
+        if (isActive) {
+            Hud hud = playScreen.getHud();
+            hud.addScore(100);
+            isActive = false;
+        }
     }
 }

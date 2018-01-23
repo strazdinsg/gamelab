@@ -19,14 +19,26 @@ public class MarioBros extends Game {
 
 	private static final int V_WIDTH = 400;
 	private static final int V_HEIGHT = 208;
-	private static final float pixelsPerMeter = 50;
+	private static final float pixelsPerMeter = 100;
+
+
+	private static final short DEFAULT_BIT = 1;
+	private static final short MARIO_BIT = 2;
+	private static final short BRICK_BIT = 4;
+	private static final short COIN_BIT = 8;
+	private static final short DESTROYED_BIT = 16;
+
+	private PlayScreen playScreen;
+
 	private SpriteBatch batch;
 
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		playScreen = new PlayScreen(this);
+
+		setScreen(playScreen);
 	}
 
 	@Override
@@ -52,7 +64,7 @@ public class MarioBros extends Game {
 	 * @return Virtual Width
 	 */
 	public int getvWidth() {
-		return this.V_WIDTH;
+		return V_WIDTH;
 	}
 
 	/**
@@ -60,7 +72,7 @@ public class MarioBros extends Game {
 	 * @return Virtual Height
 	 */
 	public int getvHeight() {
-		return this.V_HEIGHT;
+		return V_HEIGHT;
 	}
 
 	/**
@@ -68,6 +80,54 @@ public class MarioBros extends Game {
 	 * @return Pixels per meter
 	 */
 	public float getPixelsPerMeter() {
-		return this.pixelsPerMeter;
+		return pixelsPerMeter;
+	}
+
+	/**
+	 * Returns the default bit constant.
+	 * @return the default bit constant.
+	 */
+	public static short getDefaultBit() {
+		return DEFAULT_BIT;
+	}
+
+	/**
+	 * Returns the Mario bit constant.
+	 * @return the Mario bit constant.
+	 */
+	public static short getMarioBit() {
+		return MARIO_BIT;
+	}
+
+	/**
+	 * Returns the Brick bit constant.
+	 * @return the Brick bit constant.
+	 */
+	public static short getBrickBit() {
+		return BRICK_BIT;
+	}
+
+	/**
+	 * Returns the Coin bit constant
+	 * @return the Coin bit constant
+	 */
+	public static short getCoinBit() {
+		return COIN_BIT;
+	}
+
+	/**
+	 * Returns the Destroyed bit constant.
+	 * @return the Destroyed bit constant.
+	 */
+	public static short getDestroyedBit() {
+		return DESTROYED_BIT;
+	}
+
+	/**
+	 * Returns the play screen of the game
+	 * @return the play screen of the game
+	 */
+	public PlayScreen getPlayScreen() {
+		return playScreen;
 	}
 }

@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 
 /**
  * Creates the HUD. With information about time, score and which level the player is on.
@@ -26,6 +27,7 @@ import com.mygdx.testgamev1.MarioBros;
 public class Hud implements Disposable{
 
     private MarioBros game;
+    private PlayScreen playScreen;
 
     private Stage stage;
     private SpriteBatch spriteBatch;
@@ -47,13 +49,13 @@ public class Hud implements Disposable{
 
     /**
      * Takes in the MarioBros and SpriteBatch fields. Creates the HUD.
-     * @param sb The SpriteBatch object to base the stage on.
-     * @param game The MarioBros object the HUD is for.
+     * @param playScreen is the screen the HUD belongs to.
      */
-    public Hud(SpriteBatch sb , MarioBros game) {
+    public Hud(PlayScreen playScreen) {
 
-        this.spriteBatch = sb;
-        this.game = game;
+        this.playScreen = playScreen;
+        this.game = playScreen.getGame();
+        this.spriteBatch = game.getBatch();
 
         createHud();
 
@@ -74,6 +76,27 @@ public class Hud implements Disposable{
     @Override
     public void dispose() {
 
+    }
+
+    /**
+     * Updates as long as the game is running.
+     * @param dt Change of time
+     */
+    public void update(float dt) {
+
+
+        // Time counter, reduces timeCount-field by one for each second that passes.
+        timeCount += dt;
+        if (timeCount >= 1) {
+            worldTimer--;
+            countdownLabel.setText(String.format("%03d", worldTimer));
+            timeCount = 0;
+        }
+    }
+
+    public void addScore(int value) {
+        score += value;
+        scoreLabel.setText(String.format("%06d", score));
     }
 
 

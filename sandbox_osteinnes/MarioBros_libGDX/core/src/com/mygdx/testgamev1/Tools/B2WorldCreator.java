@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.testgamev1.MarioBros;
+import com.mygdx.testgamev1.Screens.PlayScreen;
 import com.mygdx.testgamev1.Sprites.Brick;
 import com.mygdx.testgamev1.Sprites.Coin;
 
@@ -36,6 +37,7 @@ public class B2WorldCreator {
     private World world;
     private TiledMap map;
     private  MarioBros game;
+    private PlayScreen playScreen;
 
     private float pixelsPerMeter;
 
@@ -43,15 +45,14 @@ public class B2WorldCreator {
      * Constructor for the B2WorldCreator-class. Takes in the world-, map- and game-field.
      * Creates the Box2D world.
      *
-     * @param world The world of your game
-     * @param map Map of your game
-     * @param game The MarioBros object.
+     * @param playScreen The screen the world operates in.
      */
-    public B2WorldCreator(World world, TiledMap map, MarioBros game){
+    public B2WorldCreator(PlayScreen playScreen){
 
-        this.world = world;
-        this.map = map;
-        this.game = game;
+        this.playScreen = playScreen;
+        this.world = playScreen.getWorld();
+        this.game = playScreen.getGame();
+        this.map = playScreen.getMap();
 
        createWorld();
     }
@@ -128,7 +129,9 @@ public class B2WorldCreator {
 
         for (MapObject object : coinObjects) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            new Coin(world, map, rectangle, pixelsPerMeter);
+            Coin coin = new Coin(playScreen);
+            coin.attachToWorld(rectangle);
+
         }
     }
 
@@ -143,7 +146,8 @@ public class B2WorldCreator {
 
         for (MapObject object : brickObjects) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            new Brick(world, map, rectangle, pixelsPerMeter);
+            Brick brick = new Brick(playScreen);
+            brick.attachToWorld(rectangle);
         }
     }
 }

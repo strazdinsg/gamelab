@@ -23,6 +23,7 @@ import com.mygdx.testgamev1.MarioBros;
 import com.mygdx.testgamev1.Scenes.Hud;
 import com.mygdx.testgamev1.Sprites.Mario;
 import com.mygdx.testgamev1.Tools.B2WorldCreator;
+import com.mygdx.testgamev1.Tools.WorldContactListener;
 
 /**
  * The play screen is where everything that is shown on the screen is set up.
@@ -76,6 +77,7 @@ public class PlayScreen implements Screen {
         setUpWorld();
         createB2World();
         addPlayer();
+        setWorldContactListener();
 
     }
 
@@ -152,6 +154,26 @@ public class PlayScreen implements Screen {
         return this.textureAtlas;
     }
 
+    /**
+     * Returns the hud of the play screen.
+     * @return the hud of the play screen.
+     */
+    public Hud getHud() {
+        return hud;
+    }
+
+    public MarioBros getGame() {
+        return game;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
     //////// HELPER METHODS /////////////////////////////////////////////////////////////
 
     /**
@@ -166,7 +188,7 @@ public class PlayScreen implements Screen {
      */
     private void createHud() {
         // Creates the HUD
-        hud = new Hud(game.getBatch(), this.game);
+        hud = new Hud(this);
     }
 
     /**
@@ -214,7 +236,7 @@ public class PlayScreen implements Screen {
     private void createB2World() {
 
         // Creates the solid objects in the world (ground, bricks, pipes and coins)
-        new B2WorldCreator(this.world, this.map, this.game);
+        new B2WorldCreator(this);
 
     }
 
@@ -223,7 +245,13 @@ public class PlayScreen implements Screen {
      */
     private void addPlayer() {
         // Defines the player sprite.
-        player = new Mario(this.world, this.game, this);
+        player = new Mario(this);
+    }
+
+    private void setWorldContactListener() {
+        WorldContactListener contactListener = new WorldContactListener();
+
+        world.setContactListener(contactListener);
     }
 
     /**
@@ -238,6 +266,7 @@ public class PlayScreen implements Screen {
         handleInput(dt);
 
         player.update(dt);
+        hud.update(dt);
 
         world.step(1/60f, 6, 2 );
 
