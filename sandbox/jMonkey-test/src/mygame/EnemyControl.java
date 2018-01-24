@@ -17,7 +17,7 @@ import com.jme3.ui.Picture;
 public abstract class EnemyControl extends AbstractControl {
 
     // Time period when enemy is initializing itself (fading in) after spawn
-    private static final float ACTIVATION_TIME = 1000f;
+    private static final int ACTIVATION_TIME = 1000;
 
     // Enemy initial movement speed, relative to distance to the player
     private static final float SPEED = 0.1f;
@@ -59,16 +59,9 @@ public abstract class EnemyControl extends AbstractControl {
             spatial.move(velocity.mult(tpf * SPEED)); // Move the enemy
             updateAfterMovement(tpf);
         } else {
-            // Fade in enemy, inactive for now
-            float timeSinceSpawn = System.currentTimeMillis() - spawnTime;
-            if (timeSinceSpawn >= ACTIVATION_TIME) {
+            if (Helper.fadeIn((Node) spatial, spatialName, spawnTime, ACTIVATION_TIME)) {
                 spatial.setUserData("active", true);
             }
-
-            ColorRGBA color = new ColorRGBA(1, 1, 1, timeSinceSpawn / ACTIVATION_TIME);
-            Node spatialNode = (Node) spatial;
-            Picture pic = (Picture) spatialNode.getChild(spatialName);
-            pic.getMaterial().setColor("Color", color);
         }
     }
 
