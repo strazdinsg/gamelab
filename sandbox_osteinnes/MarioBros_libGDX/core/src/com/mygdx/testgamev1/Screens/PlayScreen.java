@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -56,6 +57,8 @@ public class PlayScreen implements Screen {
 
     private float pixelsPerMeter;
 
+
+
     /**
      * Constructs the play screen.
      * @param game The game-object that the PlayScreen is built on.
@@ -63,6 +66,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(MarioBros game) {
 
         this.game = game;
+
 
         initiatePlayScreen();
 
@@ -97,6 +101,8 @@ public class PlayScreen implements Screen {
 
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
 
         renderer.render();
 
