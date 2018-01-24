@@ -24,3 +24,5 @@ sandbox/jMonkey-test/nbproject/private/
 sandbox/jMonkey-test/build/
 sandbox/jMonkey-test/dist/
 /sandbox/girts-libgdx-test/.nb-gradle/
+/Tutorials/07 Timed events/.nb-gradle/
+/Tutorials/08 Enemy/.nb-gradle/
