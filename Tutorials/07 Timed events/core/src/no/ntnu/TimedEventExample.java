@@ -11,7 +11,7 @@ public class TimedEventExample extends ApplicationAdapter {
     private EventTimer timer2;
     private EventTimer timer3;
 
-    float accumulatedTime; // We will use this to manually count time since last event
+    private float accumulatedTime; // We will use this to manually count time since last event
 
     @Override
     public void create() {
