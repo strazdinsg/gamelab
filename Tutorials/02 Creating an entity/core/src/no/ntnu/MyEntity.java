@@ -28,5 +28,4 @@ public class MyEntity {
         //We add the sprite to the spritebatch
         entitySprite.draw(batch);
     }
-    
 }
