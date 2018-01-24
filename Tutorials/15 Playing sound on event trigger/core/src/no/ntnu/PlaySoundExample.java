@@ -21,11 +21,9 @@ public class PlaySoundExample extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 
-                // Play sound if W or mouse is pressed.
+                // Play sound if W is pressed.
                 if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
-                    playAudio.playSound("nine.ogg");
-                } else if (Gdx.input.isTouched()) {
-                    playAudio.playSound("crow.ogg");
+                   playAudio.playSound("nine.ogg");
                 }
 	}
 	

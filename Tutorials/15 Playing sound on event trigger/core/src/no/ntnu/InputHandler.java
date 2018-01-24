@@ -15,6 +15,8 @@ import com.badlogic.gdx.InputProcessor;
  */
 public class InputHandler implements InputProcessor {
 
+    private PlayAudio playAudio;
+
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.W){
@@ -35,6 +37,9 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        // Play sound when mouse pressed.
+        playAudio = new PlayAudio();
+        playAudio.playSound("crow.ogg");
         return true;
     }
 
@@ -55,7 +60,7 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
     
 }
