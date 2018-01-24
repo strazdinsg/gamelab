@@ -4,14 +4,17 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 
 /**
- * This applications shows how to implement timed events: something happening at specific time intervals
+ * This applications shows how to implement timed events: something happening at
+ * specific time intervals.
  */
 public class TimedEventExample extends ApplicationAdapter {
+
     private EventTimer timer1;
     private EventTimer timer2;
     private EventTimer timer3;
 
-    private float accumulatedTime; // We will use this to manually count time since last event
+    // We will use this to manually count time since last event.
+    private float accumulatedTime;
 
     @Override
     public void create() {
@@ -35,7 +38,7 @@ public class TimedEventExample extends ApplicationAdapter {
             System.out.println("Timer 2 fired");
         }
         if (timer3.mustFire()) {
-            System.out.println("Timer 3 fired");
+            System.out.println("Timer 3 fired, stopping timer 1");
             timer1.stop();
         }
 
