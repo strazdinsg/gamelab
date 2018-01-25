@@ -8,15 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * @author Ole-martin Steinnes
  */
-public class MyGdxGame extends ApplicationAdapter {
+public class MapExample extends ApplicationAdapter {
 
 	private SpriteBatch batch;
 
-	// Game width and height.
-	static final int WIDTH = 800;
-	static final int HEIGHT = 408;
-
-	private Map map;
+	private OrthogonalTiledMap map;
 
 	
 	@Override
@@ -24,7 +20,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		// Creates map object
-		map = new Map(this, "level1.tmx");
+		map = new OrthogonalTiledMap("level1.tmx");
 
 	}
 

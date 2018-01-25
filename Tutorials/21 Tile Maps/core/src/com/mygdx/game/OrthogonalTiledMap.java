@@ -4,13 +4,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * @author Ole-martin Steinnes
  */
-public class Map {
+public class OrthogonalTiledMap {
 
     // This is used to load our map
     private TmxMapLoader mapLoader;
@@ -24,22 +22,19 @@ public class Map {
     // The camera that captures the map.
     private OrthographicCamera gameCamera;
 
-    // The maps viewport.
-    private Viewport viewport;
+    // Since each tile is 16px, and we want each tile to represent a unit we scale it down by 1/16f.
+    final static float unitScale = 1/16f;
 
     /**
-     * Map object
-     * @param game The game class.
+     * OrthogonalTiledMap object
      * @param filepath The map filepath
      * @throws NullPointerException if filepath is not found.
      */
-    public Map(MyGdxGame game, String filepath) throws NullPointerException {
+    public OrthogonalTiledMap(String filepath) throws NullPointerException {
 
         loadMap(filepath);
         createRenderer();
         createCamera();
-        createViewport(game);
-        adjustCamera();
 
     }
 
@@ -73,7 +68,7 @@ public class Map {
      */
     private void createRenderer() {
         // We will use this to render the map (in render method)
-        mapRenderer = new OrthogonalTiledMapRenderer(map);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
     }
 
     /**
@@ -81,27 +76,8 @@ public class Map {
      */
     private void createCamera() {
         gameCamera = new OrthographicCamera();
-    }
 
-    /**
-     * Creates viewport
-     * @param game The game class.
-     */
-    private void createViewport(MyGdxGame game) {
-        // Default position is (0,0) which is the bottom left corner.
-        viewport = new FitViewport(game.WIDTH/2
-                ,game.HEIGHT/2 ,gameCamera);
-        viewport.apply();
-    }
-
-    /**
-     * Set up camera correctly.
-     */
-    private void adjustCamera() {
-        // Sets the camera position correctly at the start of the game
-        gameCamera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
-
-        // Updates the camera position
-        gameCamera.update();
+        // Sets the camera up to 20 units with and 13 unit height. (Read Wiki)
+        gameCamera.setToOrtho(false, 20, 13);
     }
 }
