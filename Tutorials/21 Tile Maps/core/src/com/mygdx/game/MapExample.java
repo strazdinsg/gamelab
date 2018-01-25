@@ -12,7 +12,7 @@ public class MapExample extends ApplicationAdapter {
 
 	private SpriteBatch batch;
 
-	private OrthogonalTiledMap map;
+	private LoadingTiledMaps map;
 
 	
 	@Override
@@ -20,7 +20,9 @@ public class MapExample extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		// Creates map object
-		map = new OrthogonalTiledMap("level1.tmx");
+		//map = new LoadingTiledMaps("level1.tmx");
+
+		map = new LoadingTiledMaps("level1.tmx");
 
 	}
 

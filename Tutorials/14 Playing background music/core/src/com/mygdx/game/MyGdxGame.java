@@ -16,7 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		// Creates audio object
 		playAudio = new PlayAudio();
-		playAudio.playMusic(false, "nine.ogg");
+		playAudio.playMusic(true, "nine.ogg");
 	}
 
 	@Override
