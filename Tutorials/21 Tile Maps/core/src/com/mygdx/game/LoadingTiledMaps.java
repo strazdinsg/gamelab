@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 /**
+ * Wiki: https://github.com/strazdinsg/gamelab/wiki/Tile-maps
  * @author Ole-martin Steinnes
  */
 public class LoadingTiledMaps {

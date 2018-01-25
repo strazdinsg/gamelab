@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
+ * Wiki: https://github.com/strazdinsg/gamelab/wiki/Tile-maps
  * @author Ole-martin Steinnes
  */
 public class MapExample extends ApplicationAdapter {
@@ -19,11 +20,7 @@ public class MapExample extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 
-		// Creates map object
-		//map = new LoadingTiledMaps("level1.tmx");
-
 		map = new LoadingTiledMaps("level1.tmx");
-
 	}
 
 	@Override
