@@ -47,7 +47,7 @@ public class PlayScreen implements Screen {
     // Variables for the map. Map is created in tiled. (mapeditor.org)
     private TmxMapLoader mapLoader;
     private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
+    private OrthogonalTiledMapRenderer mapRenderer;
 
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -56,6 +56,8 @@ public class PlayScreen implements Screen {
 
     private float pixelsPerMeter;
 
+
+
     /**
      * Constructs the play screen.
      * @param game The game-object that the PlayScreen is built on.
@@ -63,6 +65,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(MarioBros game) {
 
         this.game = game;
+
 
         initiatePlayScreen();
 
@@ -98,7 +101,9 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        renderer.render();
+
+
+        mapRenderer.render();
 
         box2DDebugRenderer.render(world, gameCamera.combined);
 
@@ -135,7 +140,7 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         map.dispose();
-        renderer.dispose();
+        mapRenderer.dispose();
         world.dispose();
         box2DDebugRenderer.dispose();
         hud.dispose();
@@ -216,7 +221,7 @@ public class PlayScreen implements Screen {
         // Loads map, based on the camera.
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / pixelsPerMeter);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / pixelsPerMeter);
 
     }
 
@@ -275,8 +280,8 @@ public class PlayScreen implements Screen {
 
         gameCamera.update();
 
-        // Tells renderer to draw only what the camera see.
-        renderer.setView(gameCamera);
+        // Tells mapRenderer to draw only what the camera see.
+        mapRenderer.setView(gameCamera);
     }
 
     /**
