@@ -25,3 +25,5 @@ sandbox/jMonkey-test/build/
 sandbox/jMonkey-test/dist/
 /sandbox/girts-libgdx-test/.nb-gradle/
 /Tutorials/14 Playing background music/.nb-gradle/
+/Tutorials/20 Show background image/.nb-gradle/
+/Tutorials/01 Hello world/.nb-gradle/

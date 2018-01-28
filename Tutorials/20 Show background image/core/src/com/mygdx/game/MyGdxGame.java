@@ -1,44 +1,41 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGdxGame extends ApplicationAdapter {
 
-	private SpriteBatch batch;
+    private SpriteBatch batch;
+    private Texture backgroundImg;
 
-	// Class that sets up a static background
-	private StaticBackground staticBackground;
+    @Override
+    public void create() {
+        // Sprite batch is needed for rendering of graphical elements
+        batch = new SpriteBatch();
 
-	// Game width and height.
-	static final int WIDTH = 800;
-	static final int HEIGHT = 600;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
+        // Load texture for the background image
+        backgroundImg = new Texture("sky1.png");
+    }
 
-		staticBackground = new StaticBackground(this, "sky1.png");
-	}
+    @Override
+    public void render() {
+        // Open sprite batch for rendering. This should be called before any 
+        // draw() methods for the batch
+        batch.begin();
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        // Draws the background
+        batch.draw(backgroundImg, 0, 0);
 
-		// Draws the background
-		staticBackground.renderImg();
-	}
-	
-	@Override
-	public void dispose () {
-		staticBackground.dispose();
-		batch.dispose();
-	}
+        // Finish sprite batch rendering. This should be called at the end of 
+        // all sprite drawing
+        batch.end();
+    }
 
-	public SpriteBatch getBatch() {
-		return batch;
-	}
+    @Override
+    public void dispose() {
+        // Dispose the components
+        backgroundImg.dispose();
+        batch.dispose();
+    }
 }
