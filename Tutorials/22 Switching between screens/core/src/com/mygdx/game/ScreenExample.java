@@ -11,9 +11,6 @@ public class ScreenExample extends Game {
 	private SpriteBatch batch;
 	private MenuScreen menuScreen;
 
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
-
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -30,9 +27,4 @@ public class ScreenExample extends Game {
 	public void dispose () {
 		batch.dispose();
 	}
-
-	public SpriteBatch getBatch() {
-		return batch;
-	}
-
 }
