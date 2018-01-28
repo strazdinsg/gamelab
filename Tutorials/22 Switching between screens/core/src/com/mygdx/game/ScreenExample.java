@@ -1,19 +1,16 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * @author Ole-martin Steinnes
  */
 public class ScreenExample extends Game {
 
-	private SpriteBatch batch;
 	private MenuScreen menuScreen;
 
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
 		menuScreen = new MenuScreen(this);
 		setScreen(menuScreen);
 	}
@@ -25,6 +22,5 @@ public class ScreenExample extends Game {
 
 	@Override
 	public void dispose () {
-		batch.dispose();
 	}
 }
