@@ -14,18 +14,12 @@ public class GameScreen implements Screen {
     // Our main game class
     private ScreenExample gameClass;
 
-    // Loading a tiled map. Tutorial #21
-    private LoadingTiledMap tiledMap;
-
     /**
      * Game screen
      * @param gameClass The main game class
      */
     public GameScreen(ScreenExample gameClass) {
         this.gameClass = gameClass;
-
-        // Creating a tiled map object. T#21
-        tiledMap = new LoadingTiledMap("level1.tmx");
     }
 
     @Override
@@ -36,12 +30,9 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        // Clearing the screen.
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        // Clearing the screen to the color green.
+        Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Render map
-        tiledMap.render();
 
         // Change screen if ESCAPE is pressed.
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -72,7 +63,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        tiledMap.dispose();
     }
 
 
