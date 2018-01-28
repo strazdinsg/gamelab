@@ -6,9 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
-/**
- * @author Ole-martin Steinnes
- */
+
 public class GameScreen implements Screen {
 
     // Our main game class
@@ -37,6 +35,9 @@ public class GameScreen implements Screen {
         // Change screen if ESCAPE is pressed.
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             gameClass.setScreen(new MenuScreen(gameClass));
+
+            // Manually disposes of the GameScreen-object.
+            // (if it changes to the menu screen again, it will be a new object.)
             dispose();
         }
     }

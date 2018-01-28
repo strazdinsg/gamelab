@@ -2,9 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 
-/**
- * @author Ole-martin Steinnes
- */
 public class ScreenExample extends Game {
 
 	private MenuScreen menuScreen;
