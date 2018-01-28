@@ -16,6 +16,9 @@ public class TimedEventExample extends ApplicationAdapter {
     // We will use this to manually count time since last event.
     private float accumulatedTime;
 
+    // Another option to count time since last event.
+    private long lastEventTime;
+
     @Override
     public void create() {
         timer1 = new EventTimer();
@@ -26,6 +29,7 @@ public class TimedEventExample extends ApplicationAdapter {
         timer3.start(10000, false); // This one will fire only once: after 10 sec, and will stop the timer 1
 
         accumulatedTime = 0; // We start counting now
+        lastEventTime = System.currentTimeMillis(); // We start counting now
     }
 
     @Override
@@ -48,6 +52,13 @@ public class TimedEventExample extends ApplicationAdapter {
         if (accumulatedTime >= 5.0) {
             System.out.println("Five seconds have passed since last checkpoint");
             accumulatedTime = 0;
+        }
+
+        // Alternative #3: remember when the event was called last time
+        long thisTime = System.currentTimeMillis();
+        if (thisTime >= lastEventTime + 7000) {
+            System.out.println("Seven seconds passed since last Event #5");
+            lastEventTime = thisTime;
         }
     }
 

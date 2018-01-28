@@ -5,7 +5,6 @@
  */
 package no.ntnu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
@@ -17,7 +16,7 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.W){
+        if (keycode == Input.Keys.W) {
             System.out.println("W was pressed!");
         }
         return true;
@@ -57,5 +56,5 @@ public class InputHandler implements InputProcessor {
     public boolean scrolled(int amount) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
