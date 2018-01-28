@@ -5,16 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
-/**
- * @author Ole-martin Steinnes
- */
 public class MenuScreen implements Screen {
 
     // Our game class
     private ScreenExample gameClass;
-
-    // Static background class from Tutorial #20
-    private StaticBackground staticBackground;
 
     /**
      * Menu screen
@@ -23,8 +17,6 @@ public class MenuScreen implements Screen {
     public MenuScreen(ScreenExample gameClass) {
         this.gameClass = gameClass;
 
-        // Create a static background object. T#20
-        staticBackground = new StaticBackground(gameClass, "sky1.png");
     }
 
     @Override
@@ -39,12 +31,13 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Render background T#20
-        staticBackground.renderImg();
 
         // Set a new screen if W is pressed.
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             gameClass.setScreen(new GameScreen(gameClass));
+
+            // Manually disposes of the MenuScreen-object.
+            // (if it changes to the menu screen again, it will be a new object.)
             dispose();
         }
     }
@@ -71,6 +64,5 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        staticBackground.dispose();
     }
 }
