@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EntityExample extends ApplicationAdapter {
 
-    SpriteBatch batch;
-    Texture entityTexture;
-    MyEntity testEntity;
+    private SpriteBatch batch;
+    private Texture entityTexture;
+    private MyEntity testEntity;
 
     @Override
     public void create() {
@@ -18,7 +18,7 @@ public class EntityExample extends ApplicationAdapter {
         loadTextures();
         //We create the SpriteBatch and our entity
         batch = new SpriteBatch();
-        testEntity = new MyEntity(this);
+        testEntity = new MyEntity(entityTexture);
     }
 
     @Override
