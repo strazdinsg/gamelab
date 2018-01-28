@@ -13,9 +13,6 @@ public class MenuScreen implements Screen {
     // Our game class
     private ScreenExample gameClass;
 
-    // Static background class from Tutorial #20
-    private StaticBackground staticBackground;
-
     /**
      * Menu screen
      * @param gameClass The main game class.
@@ -23,8 +20,6 @@ public class MenuScreen implements Screen {
     public MenuScreen(ScreenExample gameClass) {
         this.gameClass = gameClass;
 
-        // Create a static background object. T#20
-        staticBackground = new StaticBackground(gameClass, "sky1.png");
     }
 
     @Override
@@ -39,8 +34,6 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Render background T#20
-        staticBackground.renderImg();
 
         // Set a new screen if W is pressed.
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -71,6 +64,5 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        staticBackground.dispose();
     }
 }
