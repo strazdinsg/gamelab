@@ -10,14 +10,14 @@ import com.badlogic.gdx.graphics.GL20;
 public class GameScreen implements Screen {
 
     // Our main game class
-    private ScreenExample gameClass;
+    private ScreenExample game;
 
     /**
      * Game screen
-     * @param gameClass The main game class
+     * @param game The main game class
      */
-    public GameScreen(ScreenExample gameClass) {
-        this.gameClass = gameClass;
+    public GameScreen(ScreenExample game) {
+        this.game = game;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
 
         // Change screen if ESCAPE is pressed.
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            gameClass.setScreen(new MenuScreen(gameClass));
+            game.setScreen(new MenuScreen(game));
 
             // Manually disposes of the GameScreen-object.
             // (if it changes to the menu screen again, it will be a new object.)

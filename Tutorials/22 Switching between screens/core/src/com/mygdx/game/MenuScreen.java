@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.GL20;
 public class MenuScreen implements Screen {
 
     // Our game class
-    private ScreenExample gameClass;
+    private ScreenExample game;
 
     /**
      * Menu screen
-     * @param gameClass The main game class.
+     * @param game The main game class.
      */
-    public MenuScreen(ScreenExample gameClass) {
-        this.gameClass = gameClass;
+    public MenuScreen(ScreenExample game) {
+        this.game = game;
 
     }
 
@@ -34,7 +34,7 @@ public class MenuScreen implements Screen {
 
         // Set a new screen if W is pressed.
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            gameClass.setScreen(new GameScreen(gameClass));
+            game.setScreen(new GameScreen(game));
 
             // Manually disposes of the MenuScreen-object.
             // (if it changes to the menu screen again, it will be a new object.)
