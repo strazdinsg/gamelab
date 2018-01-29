@@ -31,3 +31,7 @@ sandbox/jMonkey-test/dist/
 /Tutorials/01 Hello world/.nb-gradle/
 Tutorials/03 Input handling/.nb-gradle/
 Tutorials/02 Creating an entity/.nb-gradle/
+
+Tutorials/04 Moving and rotating an entity/\.nb-gradle/profiles/private/aux-config
+
+Tutorials/04 Moving and rotating an entity/\.nb-gradle/private/cache/
