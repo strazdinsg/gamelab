@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -56,6 +57,8 @@ public class PlayScreen implements Screen {
 
     private float pixelsPerMeter;
 
+    private Texture background;
+
 
 
     /**
@@ -68,6 +71,8 @@ public class PlayScreen implements Screen {
 
 
         initiatePlayScreen();
+
+        background = new Texture("sky1.png");
 
     }
 
@@ -101,7 +106,9 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
+        game.getBatch().begin();
+        game.getBatch().draw(background, 0 , 0);
+        game.getBatch().end();
 
         mapRenderer.render();
 
