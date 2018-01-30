@@ -16,11 +16,11 @@ public class ViewportExample extends Game {
 	private Viewport viewport;
 	private Camera camera;
 
-	// The original screen width and height.
+	// The virtual screen width and height.
 	private final static int HEIGHT = 600;
 	private final static int WIDTH = 800;
 
-	// Uses a background texture and a batch to show blackbars.
+	// Uses a background texture and a batch to show differences between viewports.
 	private Texture texture;
 	private SpriteBatch batch;
 
@@ -68,7 +68,7 @@ public class ViewportExample extends Game {
 	}
 
 	/**
-	 * FitViewport maintains the aspect-ratio of the original widht and height.
+	 * FitViewport maintains the aspect-ratio of the original width and height.
 	 * This may result in black bars.
 	 */
 	private void useFitViewport() {
@@ -123,7 +123,7 @@ public class ViewportExample extends Game {
 	}
 
 	/**
-	 * Screen viewport does'nt have virtual width or height. Therefore, no scaling or black bars appear.
+	 * Screen viewport doesn't have virtual width or height. Therefore, no scaling or black bars appear.
 	 * This results in the game looking entirely different, on different screens.
 	 */
 	private void useScreenViewport() {
