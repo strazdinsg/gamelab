@@ -23,9 +23,9 @@ public class GameStateCloudStorage extends ApplicationAdapter {
     // If you want to deploy your own PHP+MySQL-based cloud key-value storage,
     // see here: https://github.com/strazdinsg/datakomm-tools/tree/master/online-storage
     private static final String CLOUD_STORE_URL
-            = "http://gist-test2.uials.no/storage/set.php?key=" + CLOUD_KEY + "&value=";
+            = "http://your.url.here/storage/set.php?key=" + CLOUD_KEY + "&value=";
     private static final String CLOUD_LOAD_URL
-            = "http://gist-test2.uials.no/storage/get.php?key=" + CLOUD_KEY;
+            = "http://your.url.here/storage/get.php?key=" + CLOUD_KEY;
 
     /**
      * Try to restore gameState from the cloud. Clears the values if the state
