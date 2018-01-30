@@ -1,0 +1,1 @@
+By default the core/assets is the main working directory when the project is run. Do not delete it, otherwise the "Run" function will not work!
