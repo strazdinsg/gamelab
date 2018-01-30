@@ -106,7 +106,6 @@ public class ViewportExample extends Game {
 		viewport = new FillViewport(WIDTH, HEIGHT, camera);
 
 		// Applies every render that happens, to the viewport.
-		// (prevents rendering outside its limits == nothing will be rendered on the black bars)
 		viewport.apply();
 	}
 
