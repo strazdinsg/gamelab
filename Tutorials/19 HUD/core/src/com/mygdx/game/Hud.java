@@ -34,14 +34,17 @@ public class Hud {
                 batch = new SpriteBatch();
                 table = new Table();
                 hudCamera = new OrthographicCamera();
+
+                time = 100;
+                score = 555;
+
                 viewport = new FitViewport(800,600, hudCamera);
+                viewport.apply();
 
                 stage = new Stage(viewport, batch);
 
-                viewport.apply();
-
-               createLabels();
-               createTable();
+                createLabels();
+                createTable();
 
                 stage.addActor(table);
 
@@ -52,6 +55,9 @@ public class Hud {
                 batch.setProjectionMatrix(stage.getCamera().combined);
                 stage.draw();
 
+
+                time += 1;
+                countdownLabel.setText(String.format("%03d", time));
         }
 
         public void dispose() {
@@ -83,7 +89,7 @@ public class Hud {
 
                 table.row();
 
-                table.add(countdownLabel).expandX();
                 table.add(scoreLabel).expandX();
+                table.add(countdownLabel).expandX();
         }
 }
