@@ -12,7 +12,7 @@ public class GameStateExample extends ApplicationAdapter {
     
     @Override
     public void create() {
-        gameState = new GameState();
+        gameState = GameState.getInstance();
         // Store the initial game state
         gameState.set("score", 0);
         gameState.set("level", 1);
