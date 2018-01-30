@@ -15,6 +15,24 @@ public class GameState {
     // Used to save/load the state to/from JSON
     private final Json json = new Json();
 
+    // The singleton instance of GameState
+    private final static GameState INSTANCE = new GameState();
+
+    /**
+     * Not allowed to create GameState directly, it is a singleton
+     */
+    private GameState() {
+    }
+
+    /**
+     * Use this method to get a Singleton instance of GameState
+     *
+     * @return
+     */
+    public static GameState getInstance() {
+        return INSTANCE;
+    }
+
     /**
      * Store a value for a given key
      *
