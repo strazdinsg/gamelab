@@ -13,83 +13,151 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Hud {
 
-        private SpriteBatch batch;
-        private Stage stage;
-        private Viewport viewport;
-        private Camera hudCamera;
+    // The components needed to draw the hud (and position it)
+    private SpriteBatch batch;
+    private Stage stage;
+    private Viewport viewport;
+    private Camera hudCamera;
 
-        private Table table;
+    // HUD table.
+    private Table table;
 
-        private int time;
-        private int score;
+    // Game state fields for the hud.
+    private int lives;
+    private int score;
+    private int level;
 
-        private Label countdownLabel;
-        private Label scoreLabel;
-        private Label timeLabel;
-        private Label pointLabel;
+    // HUD integer labels
+    private Label levelIntLevel;
+    private Label livesIntLabel;
+    private Label scoreIntLabel;
 
-        private Label.LabelStyle labelStyle;
+    // HUD string labels
+    private Label levelLabel;
+    private Label livesLabel;
+    private Label scoreLabel;
 
-        public Hud() {
-                batch = new SpriteBatch();
-                table = new Table();
-                hudCamera = new OrthographicCamera();
+    // GameState instance and game-object.
+    private GameState gameState;
+    private HudExample game;
 
-                time = 100;
-                score = 555;
+    public Hud(HudExample game) {
 
-                viewport = new FitViewport(800,600, hudCamera);
-                viewport.apply();
+        // Initiate game-object
+        this.game = game;
 
-                stage = new Stage(viewport, batch);
+        // Initiate HUD-fields.
+        initHudFields();
 
-                createLabels();
-                createTable();
+        // Create labels and table containing labels.
+        createLabels();
+        createTable();
 
-                stage.addActor(table);
+        // Adding table to stage.
+        stage.addActor(table);
+    }
 
-                viewport.apply();
-        }
+    /**
+     * Renders the HUD.
+     */
+    public void render() {
 
-        public void render() {
-                batch.setProjectionMatrix(stage.getCamera().combined);
-                stage.draw();
+        // Draws stage content on it's batch
+        // with the view of it's camera.
+        stage.draw();
 
+        // Retrieves the game state score and updates it.
+        score = gameState.getInt(game.KSCORE);
+        scoreIntLabel.setText(String.format("%03d", score));
 
-                time += 1;
-                countdownLabel.setText(String.format("%03d", time));
-        }
+        // Retrieves the game state lives and updates it.
+        lives = gameState.getInt(game.KLIVES);
+        livesIntLabel.setText(String.format("%02d", lives));
 
-        public void dispose() {
-                batch.dispose();
-                stage.dispose();
-        }
+        // Retrieves the game state level and updates it.
+        level = gameState.getInt(game.KLEVEL);
+        levelIntLevel.setText(String.format("%03d", level));
+    }
 
-        public void resize(int width, int height) {
-                viewport.update(width, height);
-        }
+    /**
+     * Disposes of components when the HUD is
+     * no longer needed.
+     */
+    public void dispose() {
+        batch.dispose();
+        stage.dispose();
+    }
 
-        private void createLabels() {
-                labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+    /**
+     * See Tutorial #23.
+     * Resize the viewport, when the game screen gets resized.
+     * @param width     of the game screen
+     * @param height    of the game screen
+     */
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
 
-                countdownLabel = new Label(String.format("%03d",time ), labelStyle);
-                scoreLabel = new Label(String.format("%06d",score), labelStyle);
+    /**
+     * Creates labels to be added to table. (Score, lives, and level)
+     */
+    private void createLabels() {
 
-                pointLabel = new Label("POINTS", labelStyle);
-                timeLabel = new Label("TIME", labelStyle);
-        }
+        // Sets the label-style. Font and color.
+        Label.LabelStyle labelStyle =
+                new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
-        private void createTable() {
-                table.top();
+        // Create string labels.
+        scoreLabel = new Label("SCORE", labelStyle);
+        livesLabel = new Label("LIVES", labelStyle);
+        levelLabel = new Label("LEVEL", labelStyle);
 
-                table.setFillParent(true);
+        // Create int labels. Where "%03d" should be read as 3 digits.
+        livesIntLabel = new Label(String.format("%03d", lives), labelStyle);
+        scoreIntLabel = new Label(String.format("%03d",score), labelStyle);
+        levelIntLevel = new Label(String.format("%02d", level), labelStyle);
+    }
 
-                table.add(pointLabel).expandX().padTop(10);
-                table.add(timeLabel).expandX().padTop(10);
+    /**
+     * Creates table to be added to stage.
+     */
+    private void createTable() {
 
-                table.row();
+        // Sets the table at the top of the screen
+        table.top();
+        table.setFillParent(true);
 
-                table.add(scoreLabel).expandX();
-                table.add(countdownLabel).expandX();
-        }
+        // Adds the first row to the table.
+        table.add(scoreLabel).expandX().padTop(10);
+        table.add(livesLabel).expandX().padTop(10);
+        table.add(levelLabel).expandX().padTop(10);
+
+        // New row
+        table.row();
+
+        // Adds the second row to the table.
+        table.add(scoreIntLabel).expandX();
+        table.add(livesIntLabel).expandX();
+        table.add(levelIntLevel).expandX();
+    }
+
+    /**
+     * Initiates fields the HUD needs.
+     */
+    private void initHudFields() {
+        // Fetch game state instance.
+        gameState = GameState.getInstance();
+
+        // Initiate batch, table and 2D camera.
+        batch = new SpriteBatch();
+        table = new Table();
+        hudCamera = new OrthographicCamera();
+
+        // Initiate viewport (see Tutorial #23)
+        viewport = new FitViewport(800,600, hudCamera);
+        viewport.apply();
+
+        // Set up the stage
+        stage = new Stage(viewport, batch);
+    }
 }
