@@ -5,9 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.*;
 
 public class ViewportExample extends Game {
@@ -24,8 +21,11 @@ public class ViewportExample extends Game {
 
     @Override
     public void create() {
+        // Loading tile map, see tutorial Tutorial #21.
         map = new LoadingTiledMaps("level1.tmx");
-        useFitViewport();
+
+        // Create viewport to be drawn on.
+        createFitViewport();
     }
 
     @Override
@@ -34,9 +34,14 @@ public class ViewportExample extends Game {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Render map
         map.render();
 
+        // Handles input, as an example to how we can move our
+        // camera, relative to the tile map.
         handleInput();
+
+        // Updates camera position, if it has changed in handleInput()
         camera.update();
     }
 
@@ -56,7 +61,7 @@ public class ViewportExample extends Game {
      * FitViewport maintains the aspect-ratio of the original width and height.
      * This may result in black bars.
      */
-    private void useFitViewport() {
+    private void createFitViewport() {
         // A viewport manages a cameras viewportWidth and viewportHeight.
         // Thus it needs a camera to be supplied the constructor.
         camera = map.getGameCamera();
