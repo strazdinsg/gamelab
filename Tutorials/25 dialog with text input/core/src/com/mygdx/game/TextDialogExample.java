@@ -2,24 +2,21 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 
 /**
- * This example shows how to create a dialog box with text input in LibGDX
- * with the help of scene2d.
+ * This example shows how to create a dialog box with text input in LibGDX.
  */
-public class DialogExample extends Game {
+public class TextDialogExample extends Game {
     @Override
     public void create() {
+        // Creates a text input listener.
         TextInputListener listener = new TextInputListener();
+        // Gets the text input from listener, sets title and hint of dialog.
         Gdx.input.getTextInput(listener, "Enter Username", "", "username");
     }
 
     @Override
     public void render() {
-        // Avoid flickering.
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     @Override
