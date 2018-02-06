@@ -23,7 +23,7 @@ public class LoadingTiledMaps {
     private OrthographicCamera gameCamera;
 
     // Since each tile is 16px, and we want each tile to represent a unit we scale it down by 1/16f.
-    public final static float unitScale = 1 / 16f;
+    public final static float UNIT_SCALE = 1 / 16f;
 
     /**
      * LoadingTiledMaps object
@@ -68,7 +68,7 @@ public class LoadingTiledMaps {
      */
     private void createRenderer() {
         // We will use this to render the map (in render method)
-        mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
     }
 
     /**

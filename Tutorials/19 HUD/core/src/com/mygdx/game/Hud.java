@@ -66,17 +66,8 @@ public class Hud {
         // with the view of it's camera.
         stage.draw();
 
-        // Retrieves the game state score and updates it.
-        score = gameState.getInt(game.KSCORE);
-        scoreIntLabel.setText(String.format("%03d", score));
-
-        // Retrieves the game state lives and updates it.
-        lives = gameState.getInt(game.KLIVES);
-        livesIntLabel.setText(String.format("%02d", lives));
-
-        // Retrieves the game state level and updates it.
-        level = gameState.getInt(game.KLEVEL);
-        levelIntLevel.setText(String.format("%03d", level));
+        // Updates HUD-label fields.
+        updateHudFields();
     }
 
     /**
@@ -96,6 +87,23 @@ public class Hud {
      */
     public void resize(int width, int height) {
         viewport.update(width, height);
+    }
+
+    /**
+     * Fetches game state fields and updates the HUD-labels.
+     */
+    private void updateHudFields() {
+        // Retrieves the game state score and updates it.
+        score = gameState.getInt(game.KSCORE);
+        scoreIntLabel.setText(String.format("%03d", score));
+
+        // Retrieves the game state lives and updates it.
+        lives = gameState.getInt(game.KLIVES);
+        livesIntLabel.setText(String.format("%02d", lives));
+
+        // Retrieves the game state level and updates it.
+        level = gameState.getInt(game.KLEVEL);
+        levelIntLevel.setText(String.format("%03d", level));
     }
 
     /**

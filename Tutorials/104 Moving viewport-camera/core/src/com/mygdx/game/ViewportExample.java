@@ -65,7 +65,7 @@ public class ViewportExample extends Game {
         // A viewport manages a cameras viewportWidth and viewportHeight.
         // Thus it needs a camera to be supplied the constructor.
         camera = map.getGameCamera();
-        viewport = new FitViewport(WIDTH * map.unitScale, HEIGHT * map.unitScale, camera);
+        viewport = new FitViewport(WIDTH * map.UNIT_SCALE, HEIGHT * map.UNIT_SCALE, camera);
 
         // Applies every render that happens, to the viewport.
         viewport.apply();
