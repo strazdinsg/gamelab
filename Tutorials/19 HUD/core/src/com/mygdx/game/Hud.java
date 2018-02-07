@@ -39,7 +39,7 @@ public class Hud {
 
     // GameState instance and game-object.
     private GameState gameState;
-    private HudExample game;
+    private final HudExample game;
 
     public Hud(HudExample game) {
 
