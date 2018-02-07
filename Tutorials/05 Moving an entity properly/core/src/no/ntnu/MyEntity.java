@@ -24,13 +24,13 @@ public class MyEntity {
      * This method must be called in every rendering step of the game
      *
      * @param batch, The sprite batch to be used for drawing the entity
-     * @param dt, The frametime
+     * @param deltaTime, time since the last rendered frame, in seconds
      */
-    public void render(SpriteBatch batch, float dt) {
+    public void render(SpriteBatch batch, float deltaTime) {
         float speed = 100;
-        entitySprite.translateX(speed * dt);
+        entitySprite.translateX(speed * deltaTime);
         float spriteRadius = entitySprite.getWidth() / 2;
-        entitySprite.rotate(-(float) (speed * 360 / (2 * 3.14 * spriteRadius)) * dt);
+        entitySprite.rotate(-(float) (speed * 360 / (2 * 3.14 * spriteRadius)) * deltaTime);
         if (entitySprite.getX() > Gdx.graphics.getWidth()) {
             entitySprite.setX(0);
         }
