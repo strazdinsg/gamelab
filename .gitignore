@@ -35,3 +35,5 @@ Tutorials/02 Creating an entity/.nb-gradle/
 Tutorials/04 Moving and rotating an entity/\.nb-gradle/profiles/private/aux-config
 
 Tutorials/04 Moving and rotating an entity/\.nb-gradle/private/cache/
+/Tutorials/05 Moving an entity properly/.nb-gradle/
+Tutorials/06 Moving entity on user input/\.nb-gradle/
