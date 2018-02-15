@@ -39,7 +39,7 @@ public class Hud {
 
     // GameState instance and game-object.
     private GameState gameState;
-    private HudExample game;
+    private final HudExample game;
 
     public Hud(HudExample game) {
 
@@ -66,17 +66,8 @@ public class Hud {
         // with the view of it's camera.
         stage.draw();
 
-        // Retrieves the game state score and updates it.
-        score = gameState.getInt(game.KSCORE);
-        scoreIntLabel.setText(String.format("%03d", score));
-
-        // Retrieves the game state lives and updates it.
-        lives = gameState.getInt(game.KLIVES);
-        livesIntLabel.setText(String.format("%02d", lives));
-
-        // Retrieves the game state level and updates it.
-        level = gameState.getInt(game.KLEVEL);
-        levelIntLevel.setText(String.format("%03d", level));
+        // Updates HUD-label fields.
+        updateHudFields();
     }
 
     /**
@@ -91,11 +82,29 @@ public class Hud {
     /**
      * See Tutorial #23.
      * Resize the viewport, when the game screen gets resized.
-     * @param width     of the game screen
-     * @param height    of the game screen
+     *
+     * @param width of the game screen
+     * @param height of the game screen
      */
     public void resize(int width, int height) {
         viewport.update(width, height);
+    }
+
+    /**
+     * Fetches game state fields and updates the HUD-labels.
+     */
+    private void updateHudFields() {
+        // Retrieves the game state score and updates it.
+        score = gameState.getInt(game.KSCORE);
+        scoreIntLabel.setText(String.format("%03d", score));
+
+        // Retrieves the game state lives and updates it.
+        lives = gameState.getInt(game.KLIVES);
+        livesIntLabel.setText(String.format("%02d", lives));
+
+        // Retrieves the game state level and updates it.
+        level = gameState.getInt(game.KLEVEL);
+        levelIntLevel.setText(String.format("%03d", level));
     }
 
     /**
@@ -104,8 +113,8 @@ public class Hud {
     private void createLabels() {
 
         // Sets the label-style. Font and color.
-        Label.LabelStyle labelStyle =
-                new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        Label.LabelStyle labelStyle
+                = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
         // Create string labels.
         scoreLabel = new Label("SCORE", labelStyle);
@@ -114,7 +123,7 @@ public class Hud {
 
         // Create int labels. Where "%03d" should be read as 3 digits.
         livesIntLabel = new Label(String.format("%03d", lives), labelStyle);
-        scoreIntLabel = new Label(String.format("%03d",score), labelStyle);
+        scoreIntLabel = new Label(String.format("%03d", score), labelStyle);
         levelIntLevel = new Label(String.format("%02d", level), labelStyle);
     }
 
@@ -154,7 +163,7 @@ public class Hud {
         hudCamera = new OrthographicCamera();
 
         // Initiate viewport (see Tutorial #23)
-        viewport = new FitViewport(800,600, hudCamera);
+        viewport = new FitViewport(800, 600, hudCamera);
         viewport.apply();
 
         // Set up the stage
