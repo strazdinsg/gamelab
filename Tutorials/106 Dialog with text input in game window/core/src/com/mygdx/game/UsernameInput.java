@@ -25,6 +25,7 @@ public class UsernameInput {
     // Skin is what determines how the dialog will look.
     private Skin skin;
 
+    // The text field we get input in.
     private TextField textField;
 
     // Stage the dialog box will be added to.
