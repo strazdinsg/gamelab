@@ -1,31 +1,29 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * This example shows how to create a dialog box in LibGDX
- * with the help of scene2d.
+ * This class creates a text field to enter
+ * username in, and can handle the username.
  */
-public class TextFieldInput extends Game {
+public class UsernameInput {
+
+    private String username;
 
     // Viewport for the stage.
     private Viewport viewport;
 
-    // The virtual screen width and height.
-    private final static int HEIGHT = 600;
-    private final static int WIDTH = 800;
-
-    // Sprite batch for the stage.
-    private SpriteBatch batch;
+    private TextFieldInputExample game;
 
     // Skin is what determines how the dialog will look.
     private Skin skin;
@@ -38,8 +36,8 @@ public class TextFieldInput extends Game {
     // The text of our dialog box.
     private Label label;
 
-    @Override
-    public void create() {
+    public UsernameInput(TextFieldInputExample game) {
+        this.game = game;
 
         // Fetches the user interface skin.
         skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -48,33 +46,29 @@ public class TextFieldInput extends Game {
         createStage();
         // Label we will add to dialog.
         createLabel();
+        // Text field used to enter username.
         createTextField();
 
         // Sets the stage as input. See InputHandler tutorial.
         Gdx.input.setInputProcessor(stage);
     }
 
-    @Override
     public void render() {
-        // Avoid flickering.
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         // Activate the stage and draw it.
         stage.act();
         stage.draw();
+
+        // Handles text input
+        handleInput();
     }
 
-    @Override
     public void resize(int width, int height) {
         // When the game window gets resized, the viewport must me told.
         viewport.update(width, height);
     }
 
-    @Override
     public void dispose() {
         // Dispose of components when we are done with them.
-        batch.dispose();
         stage.dispose();
     }
 
@@ -84,10 +78,8 @@ public class TextFieldInput extends Game {
     private void createStage() {
         // Creates viewport (see Tutorial #23.)
         createFitViewport();
-        // SpriteBatch for the stage.
-        batch = new SpriteBatch();
         // New Stage.
-        stage = new Stage(viewport, batch);
+        stage = new Stage(viewport, game.getBatch());
     }
 
     /**
@@ -98,7 +90,7 @@ public class TextFieldInput extends Game {
         // A viewport manages a cameras viewportWidth and viewportHeight.
         // Thus it needs a camera to be supplied the constructor.
         Camera camera = new OrthographicCamera();
-        viewport = new FitViewport(WIDTH, HEIGHT, camera);
+        viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
 
         // Applies every render that happens, to the viewport.
         viewport.apply();
@@ -114,17 +106,37 @@ public class TextFieldInput extends Game {
         label.setAlignment(Align.center);
     }
 
+    /**
+     * Creates a text field to enter username in. Gets
+     * added to stage.
+     */
     private void createTextField() {
         textField = new TextField("", skin);
-        textField.setMessageText("test");
+        textField.setMessageText("Enter username and press enter");
 
-        textField.setPosition(WIDTH/2 - 100, HEIGHT/2);
-        textField.setSize(200, 50);
+        // Sets position and size of the text field.
+        textField.setPosition(game.WIDTH/2 - 150, game.HEIGHT/2);
+        textField.setSize(300, 50);
 
-
-
+        // We add the text field to the stage.
         stage.addActor(textField);
     }
 
+    /**
+     * Handles input from user, to add username.
+     */
+    private void handleInput() {
 
+        // If ENTER key is pressed (see tutorial #3)
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+
+            String textInput = textField.getText();
+
+            // If input is not empty
+            if (!textInput.isEmpty()) {
+                username = textInput;
+                stage.dispose();
+            }
+        }
+    }
 }
