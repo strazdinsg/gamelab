@@ -14,13 +14,24 @@ public class TextFieldInputExample extends Game{
     public final static int HEIGHT = 600;
     public final static int WIDTH = 800;
 
+    // Username key for game state. (See Tutorial #17)
+    public final static String K_USERNAME = "username";
+
     // Sprite batch for the stage.
     private SpriteBatch batch;
 
+    // Makes us able to get text input from user.
     private UsernameInput usernameInput;
+
+    // Game state instance (See tutorial #17)
+    private GameState gameState;
 
     @Override
     public void create() {
+
+        gameState = GameState.getInstance();
+        gameState.set(K_USERNAME, null);
+
         // SpriteBatch to be drawn on
         batch = new SpriteBatch();
 
@@ -36,6 +47,9 @@ public class TextFieldInputExample extends Game{
 
         // Render input field
         usernameInput.render();
+
+        // Prints current game state.
+        System.out.println("Current game state: " + gameState.toJson());
     }
 
     @Override

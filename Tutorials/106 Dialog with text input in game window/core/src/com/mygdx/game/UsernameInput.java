@@ -5,10 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -18,11 +16,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class UsernameInput {
 
-    private String username;
-
     // Viewport for the stage.
     private Viewport viewport;
 
+    // Our game object.
     private TextFieldInputExample game;
 
     // Skin is what determines how the dialog will look.
@@ -33,19 +30,18 @@ public class UsernameInput {
     // Stage the dialog box will be added to.
     private Stage stage;
 
-    // The text of our dialog box.
-    private Label label;
+    private GameState gameState;
 
     public UsernameInput(TextFieldInputExample game) {
         this.game = game;
+
+        gameState = GameState.getInstance();
 
         // Fetches the user interface skin.
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         // Stage we will attach dialog to
         createStage();
-        // Label we will add to dialog.
-        createLabel();
         // Text field used to enter username.
         createTextField();
 
@@ -97,16 +93,6 @@ public class UsernameInput {
     }
 
     /**
-     * Creates label for the dialog box.
-     */
-    private void createLabel() {
-        label = new Label("This is my dialog text.", skin);
-        label.setWrap(true);
-        label.setFontScale(.8f);
-        label.setAlignment(Align.center);
-    }
-
-    /**
      * Creates a text field to enter username in. Gets
      * added to stage.
      */
@@ -134,7 +120,8 @@ public class UsernameInput {
 
             // If input is not empty
             if (!textInput.isEmpty()) {
-                username = textInput;
+                // Sets username in game state instance.
+                gameState.set(game.K_USERNAME, textInput);
                 stage.dispose();
             }
         }
