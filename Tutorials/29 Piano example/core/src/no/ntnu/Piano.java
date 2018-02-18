@@ -3,8 +3,12 @@ package no.ntnu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Piano {
 
@@ -21,9 +25,16 @@ public class Piano {
     private Texture unpressedTexture;
     private Texture pressedTexture;
 
+    private Viewport viewport;
+    private Camera camera;
+
     public Piano() {
         loadTextures();
         createSounds();
+
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(800,600,camera);
+        viewport.apply();
 
         pianoTab1 = new PianoTab(unpressedTexture , 150, 300, 25, 25);
         pianoTab2 = new PianoTab(unpressedTexture ,150, 300, 176, 25);
@@ -39,6 +50,10 @@ public class Piano {
         pianoTab2.render(batch);
         pianoTab3.render(batch);
         pianoTab4.render(batch);
+    }
+
+    public void resize(int width, int height) {
+        viewport.update(width, height);
     }
 
     public void dispose() {
@@ -59,8 +74,8 @@ public class Piano {
         pressedTexture.dispose();
     }
 
-    public void touchDown(int x, int y) {
-        if ((25<x) && (x<175) && (150<y) && (y<450)) {
+    public void touchDown(float x, float y) {
+        if ((25<x) && (x<175) && (25<y) && (y<325)) {
             pianoTab1.setTexture(pressedTexture);
             pianoCSharp.play();
         } else if ((176<x) && (x<326) && (25<y) && (y<325)) {
@@ -75,8 +90,8 @@ public class Piano {
         }
     }
 
-    public void touchUp(int x, int y) {
-        if ((25<x) && (x<175) && (150<y) && (y<450)) {
+    public void touchUp(float x, float y) {
+        if ((25<x) && (x<175) && (25<y) && (y<325)) {
             pianoTab1.setTexture(unpressedTexture);
         } else if ((176<x) && (x<326) && (25<y) && (y<325)) {
             pianoTab2.setTexture(unpressedTexture);

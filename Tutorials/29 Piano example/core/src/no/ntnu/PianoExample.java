@@ -19,6 +19,11 @@ public class PianoExample extends ApplicationAdapter {
     }
 
     @Override
+    public void resize(int width, int height) {
+        piano.resize(width, height);
+    }
+
+    @Override
     public void render() {
         //We clear the screen
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -29,6 +34,8 @@ public class PianoExample extends ApplicationAdapter {
         piano.render(batch);
         batch.end();
     }
+
+
 
     @Override
     public void dispose() {
