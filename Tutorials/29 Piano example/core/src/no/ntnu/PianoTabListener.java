@@ -26,18 +26,20 @@ public class PianoTabListener implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        piano.onMouseClick(screenX, screenY);
+        piano.touchDown(screenX, screenY);
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        piano.touchUp(screenX, screenY);
+        return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+        piano.touchUp(screenX, screenY);
+        return true;
     }
 
     @Override
