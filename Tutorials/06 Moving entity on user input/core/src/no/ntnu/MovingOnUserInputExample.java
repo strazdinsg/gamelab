@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Use mouse and WASD keys to control the position and orientation of an entity
+ * on the screen
+ */
 public class MovingOnUserInputExample extends ApplicationAdapter {
 
     private SpriteBatch batch;
@@ -23,9 +27,9 @@ public class MovingOnUserInputExample extends ApplicationAdapter {
 
     @Override
     public void render() {
-        float frametime = ((float)(System.currentTimeMillis() - lastFrameMillis))/1000;
+        float frametime = ((float) (System.currentTimeMillis() - lastFrameMillis)) / 1000;
         lastFrameMillis = System.currentTimeMillis();
-        
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
