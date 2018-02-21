@@ -11,20 +11,17 @@ public class properMovingEntityExample extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture entityTexture;
     private MyEntity testEntity;
-    private long lastFrameMillis;
 
     @Override
     public void create() {
         loadTextures();
         batch = new SpriteBatch();
         testEntity = new MyEntity(entityTexture);
-        lastFrameMillis = System.currentTimeMillis();
     }
 
     @Override
     public void render() {
-        float frametime = ((float)(System.currentTimeMillis() - lastFrameMillis))/1000;
-        lastFrameMillis = System.currentTimeMillis();
+        float frametime = Gdx.graphics.getDeltaTime();
         
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
