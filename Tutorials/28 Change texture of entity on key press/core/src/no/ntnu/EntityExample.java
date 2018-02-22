@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.security.Key;
-
 /**
  * In this example we show how to change the texture/color
  * of an entity in libGDX.
@@ -50,7 +48,7 @@ public class EntityExample extends ApplicationAdapter {
     }
 
     /**
-     * Loads initial texture of enitity.
+     * Loads initial texture of entity.
      */
     private void loadTextures() {
         //We load our textures so they're ready to be drawn

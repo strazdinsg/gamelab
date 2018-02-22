@@ -60,7 +60,7 @@ public class UsernameInput {
     }
 
     public void resize(int width, int height) {
-        // When the game window gets resized, the viewport must me told.
+        // When the game window gets resized, the viewport must be told.
         viewport.update(width, height);
     }
 
