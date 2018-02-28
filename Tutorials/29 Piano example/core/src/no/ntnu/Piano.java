@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -35,6 +37,7 @@ public class Piano {
         camera = new OrthographicCamera();
         viewport = new FitViewport(800,600,camera);
         viewport.apply();
+
 
         pianoTab1 = new PianoTab(unpressedTexture , 150, 300, 25, 25);
         pianoTab2 = new PianoTab(unpressedTexture ,150, 300, 176, 25);
