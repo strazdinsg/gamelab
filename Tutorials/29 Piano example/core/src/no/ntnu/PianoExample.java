@@ -3,11 +3,14 @@ package no.ntnu;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * This example creates a small piano
+ * by using scene2d, with stage and table.
+ */
 public class PianoExample extends ApplicationAdapter {
 
+    // Piano object.
     private Piano piano;
 
     @Override
@@ -26,7 +29,7 @@ public class PianoExample extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //We draw our entity
+        //We draw our piano
         piano.render();
     }
 
