@@ -8,13 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class PianoExample extends ApplicationAdapter {
 
-    private SpriteBatch batch;
     private Piano piano;
 
     @Override
     public void create() {
-        //We create the SpriteBatch and our entity
-        batch = new SpriteBatch();
         piano = new Piano();
     }
 
@@ -30,9 +27,7 @@ public class PianoExample extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //We draw our entity
-        batch.begin();
-        piano.render(batch);
-        batch.end();
+        piano.render();
     }
 
 
@@ -40,7 +35,6 @@ public class PianoExample extends ApplicationAdapter {
     @Override
     public void dispose() {
         //We clean up
-        batch.dispose();
         piano.dispose();
     }
 

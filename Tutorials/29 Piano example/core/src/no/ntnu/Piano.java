@@ -6,18 +6,16 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Piano {
-
-    private PianoTab pianoTab1;
-    private PianoTab pianoTab2;
-    private PianoTab pianoTab3;
-    private PianoTab pianoTab4;
 
     private Sound pianoCSharp;
     private Sound pianoC;
@@ -27,32 +25,31 @@ public class Piano {
     private Texture unpressedTexture;
     private Texture pressedTexture;
 
+    private ImageButton button;
+    private ImageButton button2;
+    private ImageButton button3;
+    private ImageButton button4;
+
+    private Stage stage;
+    private Table table;
+
     private Viewport viewport;
-    private Camera camera;
 
     public Piano() {
         loadTextures();
         createSounds();
+        createStage();
+        createTable();
+        createButtonListeners();
 
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(800,600,camera);
-        viewport.apply();
-
-
-        pianoTab1 = new PianoTab(unpressedTexture , 150, 300, 25, 25);
-        pianoTab2 = new PianoTab(unpressedTexture ,150, 300, 176, 25);
-        pianoTab3 = new PianoTab(unpressedTexture ,150, 300, 327, 25);
-        pianoTab4 = new PianoTab(unpressedTexture ,150, 300, 478, 25);
-
-        Gdx.input.setInputProcessor(new PianoTabListener(this));
+        stage.addActor(table);
+        Gdx.input.setInputProcessor(stage);
     }
 
 
-    public void render(SpriteBatch batch) {
-        pianoTab1.render(batch);
-        pianoTab2.render(batch);
-        pianoTab3.render(batch);
-        pianoTab4.render(batch);
+    public void render() {
+        stage.act();
+        stage.draw();
     }
 
     public void resize(int width, int height) {
@@ -75,39 +72,24 @@ public class Piano {
 
         unpressedTexture.dispose();
         pressedTexture.dispose();
-    }
+        stage.dispose();
 
-    public void touchDown(float x, float y) {
-        if ((25<x) && (x<175) && (25<y) && (y<325)) {
-            pianoTab1.setTexture(pressedTexture);
-            pianoCSharp.play();
-        } else if ((176<x) && (x<326) && (25<y) && (y<325)) {
-            pianoTab2.setTexture(pressedTexture);
-            pianoC.play();
-        } else if ((327<x) && (x<477) && (25<y) && (y<325)) {
-            pianoTab3.setTexture(pressedTexture);
-            pianoD.play();
-        } else if ((478<x) && (x<628) && (25<y) && (y<325)) {
-            pianoTab4.setTexture(pressedTexture);
-            pianoE.play();
-        }
-    }
-
-    public void touchUp(float x, float y) {
-        if ((25<x) && (x<175) && (25<y) && (y<325)) {
-            pianoTab1.setTexture(unpressedTexture);
-        } else if ((176<x) && (x<326) && (25<y) && (y<325)) {
-            pianoTab2.setTexture(unpressedTexture);
-        } else if ((327<x) && (x<477) && (25<y) && (y<325)) {
-            pianoTab3.setTexture(unpressedTexture);
-        } else if ((478<x) && (x<628) && (25<y) && (y<325)) {
-            pianoTab4.setTexture(unpressedTexture);
-        }
     }
 
     private void loadTextures() {
         pressedTexture = new Texture("pianotab_2.png");
         unpressedTexture = new Texture("pianotab_1.png");
+
+        TextureRegion pressedTextureRegion = new TextureRegion(pressedTexture);
+        TextureRegion unpressedTextureRegion = new TextureRegion(unpressedTexture);
+
+        TextureRegionDrawable pressedDrawable = new TextureRegionDrawable(pressedTextureRegion);
+        TextureRegionDrawable unpressedDrawable = new TextureRegionDrawable(unpressedTextureRegion);
+
+        button = new ImageButton(pressedDrawable, unpressedDrawable);
+        button2 = new ImageButton(pressedDrawable, unpressedDrawable);
+        button3 = new ImageButton(pressedDrawable, unpressedDrawable);
+        button4 = new ImageButton(pressedDrawable, unpressedDrawable);
     }
 
     private void createSounds() {
@@ -115,5 +97,48 @@ public class Piano {
         pianoC = Gdx.audio.newSound(new FileHandle("sounds/piano-c.wav"));
         pianoD = Gdx.audio.newSound(new FileHandle("sounds/piano-d.wav"));
         pianoE = Gdx.audio.newSound(new FileHandle("sounds/piano-e.wav"));
+    }
+
+    private void createStage() {
+        Camera camera = new OrthographicCamera();
+        viewport = new FitViewport(800,600,camera);
+        stage = new Stage(viewport);
+    }
+
+    private void createTable(){
+        table = new Table();
+        table.setSize(800, 600);
+
+        table.add(button).padRight(4);
+        table.add(button2).padRight(4);
+        table.add(button3).padRight(4);
+        table.add(button4).padRight(4);
+    }
+
+    private void createButtonListeners() {
+        button.addListener(new ClickListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                pianoC.play();
+                return true;
+            }
+        });
+        button2.addListener(new ClickListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                pianoCSharp.play();
+                return true;
+            }
+        });
+        button3.addListener(new ClickListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                pianoD.play();
+                return true;
+            }
+        });
+        button4.addListener(new ClickListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                pianoE.play();
+                return true;
+            }
+        });
     }
 }
