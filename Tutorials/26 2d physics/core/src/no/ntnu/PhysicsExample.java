@@ -2,6 +2,8 @@ package no.ntnu;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -71,6 +73,17 @@ public class PhysicsExample extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)){
+            box1.applyTorque(-3*box1.getInertia(), true);
+        }
+        if (Gdx.input.isKeyPressed(Keys.LEFT)){
+            box1.applyTorque(3*box1.getInertia(), true);
+        }
+        if (Gdx.input.isKeyPressed(Keys.UP)){
+            box1.applyForceToCenter(new Vector2(0, 200*box1.getMass()), true);
+        }
+        
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         box1Sprite.setPosition(box1.getPosition().x - box1Sprite.getWidth() / 2, box1.getPosition().y - box1Sprite.getHeight() / 2);
         box2Sprite.setPosition(box2.getPosition().x - box2Sprite.getWidth() / 2, box2.getPosition().y - box2Sprite.getHeight() / 2);
