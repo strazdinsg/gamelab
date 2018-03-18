@@ -37,3 +37,7 @@ Tutorials/04 Moving and rotating an entity/\.nb-gradle/profiles/private/aux-conf
 Tutorials/04 Moving and rotating an entity/\.nb-gradle/private/cache/
 /Tutorials/05 Moving an entity properly/.nb-gradle/
 Tutorials/06 Moving entity on user input/\.nb-gradle/
+
+sandbox/platformer/\.nb-gradle/
+
+Tutorials/12 Collision detection/\.nb-gradle/private/cache/
