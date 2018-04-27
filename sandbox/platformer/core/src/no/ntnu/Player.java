@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
@@ -21,7 +23,7 @@ public class Player {
     Sprite sprite;
     Body body;
     GameScreen game;
-    int jumpsRemaining = 1000;
+    int jumpsRemaining = 2;
     
     private final int SIZE = 31;
     
@@ -41,19 +43,17 @@ public class Player {
     }
     
     public void update(float delta){
-        float xforce = 0;
-        float yforce = 0;
-        if (Gdx.input.isKeyPressed(Keys.A)){
-            xforce += -10*32*delta;
+        if (Gdx.input.isKeyPressed(Keys.A) && body.getLinearVelocity().x>-45){
+            body.applyLinearImpulse(new Vector2(-45*delta,0), body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Keys.D)){
-            xforce += 10*32*delta;
+        if (Gdx.input.isKeyPressed(Keys.D) && body.getLinearVelocity().x<45){
+            body.applyLinearImpulse(new Vector2(45*delta,0), body.getWorldCenter(), true);
         }
         if (Gdx.input.isKeyJustPressed(Keys.W) && jumpsRemaining>0){
-            yforce += 10*32;
+            body.applyLinearImpulse(new Vector2(0,30), body.getWorldCenter(), true);
             jumpsRemaining--;
         }
-        body.applyLinearImpulse(new Vector2(xforce, yforce), body.getWorldCenter(), true);
+        
     }
     
     public void render(){
@@ -66,12 +66,24 @@ public class Player {
         bodyDef.type = BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         body = game.world.createBody(bodyDef);
+        body.setLinearDamping(0);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(SIZE/2, SIZE/2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.restitution = 0.1f;
-        fixtureDef.friction = 0.9f;
-        body.createFixture(fixtureDef);
+        fixtureDef.restitution = 0.0f;
+        fixtureDef.friction = 0.5f;
+        Fixture bodyfix = body.createFixture(fixtureDef);
+        bodyfix.setUserData(new CollisionHandler(){
+            @Override
+            void beginContact(Contact contact) {
+                jumpsRemaining = 2;
+            }
+            @Override
+            void endContact(Contact contact) {
+                
+            }
+        });
+        
     }
 }

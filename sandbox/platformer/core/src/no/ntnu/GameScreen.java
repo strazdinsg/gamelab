@@ -44,9 +44,10 @@ public class GameScreen implements Screen  {
     public GameScreen(){
         camera = MainClass.camera;
         batch = MainClass.batch;
-        world = new World(new Vector2(0, -9.81f*32), false);
+        world = new World(new Vector2(0, -9.81f), false);
         player = new Player(this);
         mapLoader = new MapLoader();
+        world.setContactListener(new CollisionListener());
         loadLevel(1);
         createFitViewport();
     }
@@ -61,7 +62,7 @@ public class GameScreen implements Screen  {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         player.update(delta);
-        world.step(delta, 1, 1);
+        world.step(delta, 2, 4);
         
         camera.update();
         batch.setProjectionMatrix(camera.combined);
