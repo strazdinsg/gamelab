@@ -25,7 +25,7 @@ public class Player {
     GameScreen game;
     int jumpsRemaining = 2;
     
-    private final int SIZE = 31;
+    private final float SIZE = 31;
     
     public Player(GameScreen game){
         this.game = game;
@@ -37,27 +37,28 @@ public class Player {
     }
     
     public void setPosition(Vector2 pos){
-        pos.x += SIZE/2;
-        pos.y += SIZE/2;
+        pos.x += (SIZE/2)/GameScreen.PIXELSPERUNIT;
+        pos.y += (SIZE/2)/GameScreen.PIXELSPERUNIT;
         body.setTransform(pos, 0);
     }
     
     public void update(float delta){
-        if (Gdx.input.isKeyPressed(Keys.A) && body.getLinearVelocity().x>-45){
-            body.applyLinearImpulse(new Vector2(-450*delta,0), body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Keys.A) && body.getLinearVelocity().x>-6){
+            body.applyForceToCenter(new Vector2(-30,0), true);
         }
-        if (Gdx.input.isKeyPressed(Keys.D) && body.getLinearVelocity().x<45){
-            body.applyLinearImpulse(new Vector2(450*delta,0), body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Keys.D) && body.getLinearVelocity().x<6){
+            body.applyForceToCenter(new Vector2(30,0), true);
         }
         if (Gdx.input.isKeyJustPressed(Keys.W) && jumpsRemaining>0){
-            body.applyLinearImpulse(new Vector2(0,500), body.getWorldCenter(), true);
+            //body.applyLinearImpulse(new Vector2(0,10), body.getWorldCenter(), true);
+            body.setLinearVelocity(body.getLinearVelocity().x, 10);
+            
             jumpsRemaining--;
         }
-        
     }
     
     public void render(){
-        sprite.setPosition(body.getPosition().x - SIZE/2, body.getPosition().y-SIZE/2);
+        sprite.setPosition(body.getPosition().x*GameScreen.PIXELSPERUNIT - SIZE/2, body.getPosition().y*GameScreen.PIXELSPERUNIT - SIZE/2);
         sprite.draw(MainClass.batch);
     }
     
@@ -68,11 +69,11 @@ public class Player {
         body = game.world.createBody(bodyDef);
         body.setLinearDamping(0);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(SIZE/2, SIZE/2);
+        shape.setAsBox((SIZE/2)/GameScreen.PIXELSPERUNIT, (SIZE/2)/GameScreen.PIXELSPERUNIT);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.restitution = 0.0f;
-        fixtureDef.friction = 0.5f;
+        fixtureDef.friction = 0.9f;
         Fixture bodyfix = body.createFixture(fixtureDef);
         bodyfix.setUserData(new CollisionHandler(){
             @Override
