@@ -44,7 +44,7 @@ public class GameScreen implements Screen  {
     public GameScreen(){
         camera = MainClass.camera;
         batch = MainClass.batch;
-        world = new World(new Vector2(0, -9.81f), false);
+        world = new World(new Vector2(0, -9.81f * 20f), false);
         player = new Player(this);
         mapLoader = new MapLoader();
         world.setContactListener(new CollisionListener());

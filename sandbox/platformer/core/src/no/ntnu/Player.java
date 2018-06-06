@@ -44,13 +44,13 @@ public class Player {
     
     public void update(float delta){
         if (Gdx.input.isKeyPressed(Keys.A) && body.getLinearVelocity().x>-45){
-            body.applyLinearImpulse(new Vector2(-45*delta,0), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(-450*delta,0), body.getWorldCenter(), true);
         }
         if (Gdx.input.isKeyPressed(Keys.D) && body.getLinearVelocity().x<45){
-            body.applyLinearImpulse(new Vector2(45*delta,0), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(450*delta,0), body.getWorldCenter(), true);
         }
         if (Gdx.input.isKeyJustPressed(Keys.W) && jumpsRemaining>0){
-            body.applyLinearImpulse(new Vector2(0,30), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(0,500), body.getWorldCenter(), true);
             jumpsRemaining--;
         }
         
