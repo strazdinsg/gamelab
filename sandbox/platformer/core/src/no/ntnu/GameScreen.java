@@ -75,8 +75,18 @@ public class GameScreen implements Screen  {
         debugRenderer.render(world, camera.combined.scl(32));
         
         batch.begin();
+        for (Entity e:entities)
+            if (e.isAlive())
+                e.render();
         player.render();
         batch.end();
+        
+        for (Entity e:entities)
+            if (!e.isAlive()){
+                e.dispose();
+                entities.remove(e);
+                break;
+            }
     }
 
     @Override
@@ -122,24 +132,11 @@ public class GameScreen implements Screen  {
         MapLayer entityLayer = mapLoader.getMap().getLayers().get("entity_layer");
         MapObjects entityObjects = entityLayer.getObjects();
         
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        Body body;
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        for (MapObject o:collisionObjects){
-            MapProperties op = o.getProperties();
-            float x = (Float)o.getProperties().get("x")/GameScreen.PIXELSPERUNIT;
-            float y = (Float)o.getProperties().get("y")/GameScreen.PIXELSPERUNIT;
-            float width = (Float)o.getProperties().get("width")/GameScreen.PIXELSPERUNIT;
-            float height = (Float)o.getProperties().get("height")/GameScreen.PIXELSPERUNIT;
-            
-            body = world.createBody(bodyDef);
-            body.setTransform(x+width/2, y+height/2, 0);
-            shape.setAsBox(width/2, height/2);
-            body.createFixture(fixtureDef);
-            staticCollidables.add(body);
+        for (MapObject o:entityObjects){
+            float x, y;
+            x = (Float)o.getProperties().get("x");
+            y = (Float)o.getProperties().get("y");
+            entities.add(new Coin(new Vector2(x, y), world));
         }
     }
     

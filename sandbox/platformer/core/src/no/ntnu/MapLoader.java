@@ -27,8 +27,11 @@ public class MapLoader implements Disposable {
         
         if (mapLoader == null)
             mapLoader = new TmxMapLoader();
-        
-        map = mapLoader.load("Maps\\" + filepath);
+        try{
+            map = mapLoader.load("Maps\\" + filepath);
+        }catch(Exception ex){
+            map = mapLoader.load("Maps/" + filepath);
+        }
         mapRenderer.setMap(map);
     }
     

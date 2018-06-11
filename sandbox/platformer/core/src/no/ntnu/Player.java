@@ -21,7 +21,7 @@ public class Player {
     
     Texture playerTexture;
     Sprite sprite;
-    Body body;
+    public static Body body;
     GameScreen game;
     int jumpsRemaining = 2;
     

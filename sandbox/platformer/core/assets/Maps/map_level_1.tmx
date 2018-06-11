@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#ffffff" nextobjectid="27">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#ffffff" nextobjectid="27">
  <tileset firstgid="1" source="../Tileset_map.tsx"/>
- <objectgroup name="entitiy_layer">
+ <objectgroup name="entity_layer">
   <object id="13" name="coin" x="256" y="192" width="32" height="32"/>
   <object id="14" name="coin" x="192" y="192" width="32" height="32"/>
   <object id="16" name="coin" x="224" y="192" width="32" height="32"/>
