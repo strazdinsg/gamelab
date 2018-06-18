@@ -9,6 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.*;
 
+/**
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Viewports
+ */
+
 public class ViewportExample extends Game {
 
     // Viewport and camera fields.
