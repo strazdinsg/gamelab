@@ -2,6 +2,11 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 
+/**
+ * You can find the wiki-page for this example here:
+ * https://github.com/strazdinsg/gamelab/wiki/Playing-background-music
+ */
+
 public class MyGdxGame extends ApplicationAdapter {
 	private PlayAudio playAudio;
 	

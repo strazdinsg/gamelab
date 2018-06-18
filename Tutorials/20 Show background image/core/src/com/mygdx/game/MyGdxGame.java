@@ -4,6 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Related wiki-pake is here:
+ * https://github.com/strazdinsg/gamelab/wiki/Static-background
+ */
+
 public class MyGdxGame extends ApplicationAdapter {
 
     private SpriteBatch batch;

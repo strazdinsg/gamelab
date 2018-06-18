@@ -1,5 +1,10 @@
 package com.mygdx.game;
 
+/**
+ * You can find the Wiki-page for this example here:
+ * https://github.com/strazdinsg/gamelab/wiki/Moving-viewport-camera
+ */
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

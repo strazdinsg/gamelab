@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 
 /**
  * This example shows how to create a dialog box with text input in LibGDX.
+ *
+ * wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Dialog-with-text-input
  */
 public class TextDialogExample extends Game {
     @Override

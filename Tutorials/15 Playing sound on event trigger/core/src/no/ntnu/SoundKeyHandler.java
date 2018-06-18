@@ -9,6 +9,10 @@ import com.badlogic.gdx.files.FileHandle;
 /**
  * An input handler that will play a sound on some keys and mouse presses. Most
  * of the methods are not used.
+ *
+ * The tutorial for this example is found here:
+ * https://github.com/strazdinsg/gamelab/wiki/Playing-audio-on-mouse-button-click
+ *
  */
 public class SoundKeyHandler implements InputProcessor {
 

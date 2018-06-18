@@ -1,0 +1,2 @@
+ * Related wiki-pake is here:
+ * https://github.com/strazdinsg/gamelab/wiki/Static-background

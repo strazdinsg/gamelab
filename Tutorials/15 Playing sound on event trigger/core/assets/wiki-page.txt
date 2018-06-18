@@ -1,0 +1,2 @@
+Wiki-page for this example can be found here
+https://github.com/strazdinsg/gamelab/wiki/Playing-audio-on-mouse-button-click

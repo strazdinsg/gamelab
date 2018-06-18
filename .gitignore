@@ -20,13 +20,44 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+sandbox/jMonkey-test/nbproject/private/
+sandbox/jMonkey-test/build/
+sandbox/jMonkey-test/dist/
+/sandbox/girts-libgdx-test/.nb-gradle/
+/Tutorials/07 Timed events/.nb-gradle/
+/Tutorials/08 Enemy/.nb-gradle/
+/Tutorials/14 Playing background music/.nb-gradle/
+/Tutorials/20 Show background image/.nb-gradle/
+/Tutorials/01 Hello world/.nb-gradle/
+Tutorials/03 Input handling/.nb-gradle/
+Tutorials/02 Creating an entity/.nb-gradle/
+
+Tutorials/04 Moving and rotating an entity/\.nb-gradle/profiles/private/aux-config
+
+Tutorials/04 Moving and rotating an entity/\.nb-gradle/private/cache/
+
 **/nbproject/private/
 **/build/
 **/dist/
-
+sandbox/jMonkey-test/nbproject/private/
+sandbox/jMonkey-test/build/
+sandbox/jMonkey-test/dist/
+/sandbox/girts-libgdx-test/.nb-gradle/
+/Tutorials/07 Timed events/.nb-gradle/
+/Tutorials/08 Enemy/.nb-gradle/
+/Tutorials/14 Playing background music/.nb-gradle/
+/Tutorials/20 Show background image/.nb-gradle/
+/Tutorials/01 Hello world/.nb-gradle/
+Tutorials/03 Input handling/.nb-gradle/
+Tutorials/02 Creating an entity/.nb-gradle/
 Tutorials/24 Text dialog without text  input/html/build/tmp/draftWar/MANIFEST\.MF
 
 Tutorials/24 Text dialog without text  input/html/build/tmp/war/MANIFEST\.MF
 
 **/.nb-gradle
 **/.idea
+Tutorials/04 Moving and rotating an entity/\.nb-gradle/profiles/private/aux-config
+
+Tutorials/04 Moving and rotating an entity/\.nb-gradle/private/cache/
+/Tutorials/05 Moving an entity properly/.nb-gradle/
+Tutorials/06 Moving entity on user input/\.nb-gradle/

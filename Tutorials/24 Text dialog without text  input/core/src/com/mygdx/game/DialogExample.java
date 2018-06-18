@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.viewport.*;
 /**
  * This example shows how to create a dialog box in LibGDX
  * with the help of scene2d.
+ *
+ * wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Dialog-without-text-input
  */
 public class DialogExample extends Game {
 
