@@ -2,6 +2,10 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 
+/**
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Switching-between-screens
+ */
+
 public class ScreenExample extends Game {
 
 	private MenuScreen menuScreen;
