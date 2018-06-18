@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 
 /**
  * An example with Head-Up-Display (HUD) showing some text over our game world
+ *
+ * Wiki-page for this example is located here:
+ * https://github.com/strazdinsg/gamelab/wiki/HUD-(Head-Up-Display)
  */
 public class HudExample extends Game {
 
