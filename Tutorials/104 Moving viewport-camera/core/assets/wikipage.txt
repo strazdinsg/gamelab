@@ -1,0 +1,2 @@
+You can find the Wiki-page for this example here:
+  https://github.com/strazdinsg/gamelab/wiki/Moving-viewport-camera
