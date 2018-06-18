@@ -1,0 +1,2 @@
+You can find the wiki-page here:
+https://github.com/strazdinsg/gamelab/wiki/Dialog-with-text-input

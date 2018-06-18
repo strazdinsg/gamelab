@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * This example shows how to create a text input
  * field to enter username in.
+ *
+ * You can fint the tutorial wiki here:
+ * https://github.com/strazdinsg/gamelab/wiki/Dialog-with-text-input
  */
 public class TextFieldInputExample extends Game{
 
