@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 /**
  * This example creates a small piano
  * by using scene2d, with stage and table.
+ *
+ * wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Piano-Example
  */
 public class PianoExample extends ApplicationAdapter {
 
