@@ -26,9 +26,13 @@ public class MyEntity {
      * @param batch, The sprite batch to be used for drawing the entity
      */
     public void render(SpriteBatch batch) {
+        // Move the entity one pixel to the right and rotate it by 360 degrees 
+        // divided by the circumferal length of the ball (2pi*r)
+        // Effectively - rotate one pixel and move one pixel to the left
         entitySprite.translateX(1);
         float spriteRadius = entitySprite.getWidth() / 2;
         entitySprite.rotate(-(float) (360 / (2 * 3.14 * spriteRadius)));
+        // When the entity moves out of the window, place it back again
         if (entitySprite.getX() > Gdx.graphics.getWidth()) {
             entitySprite.setX(0);
         }
