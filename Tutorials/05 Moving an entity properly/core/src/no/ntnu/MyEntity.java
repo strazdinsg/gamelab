@@ -27,10 +27,14 @@ public class MyEntity {
      * @param deltaTime, time since the last rendered frame, in seconds
      */
     public void render(SpriteBatch batch, float deltaTime) {
+        // How many pixels per second to move the entity
         float speed = 100;
         entitySprite.translateX(speed * deltaTime);
         float spriteRadius = entitySprite.getWidth() / 2;
+        // Rotate <speed> pixels per second (360 degrees / (2pi * radius), 
+        // multiplied by speed, adjusted by framerate
         entitySprite.rotate(-(float) (speed * 360 / (2 * 3.14 * spriteRadius)) * deltaTime);
+        // If the entity moves out from the screen, put it back on the left side
         if (entitySprite.getX() > Gdx.graphics.getWidth()) {
             entitySprite.setX(0);
         }
