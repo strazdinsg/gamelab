@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 /**
  * This example shows how to create an enemy that roams in the game world
  * autonomously.
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Creating-enemies
  */
 public class EnemyExample extends ApplicationAdapter {
 
