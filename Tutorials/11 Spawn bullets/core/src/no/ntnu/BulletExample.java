@@ -14,6 +14,7 @@ import java.util.List;
  * An example showing how to spawn bullets in the direction of the mouse, and
  * how to dispose them when they go out of the screen.
  * Textures source: https://gamedevelopment.tutsplus.com/tutorials/make-a-neon-vector-shooter-in-jmonkeyengine-the-basics--gamedev-11616
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Creating-bullets
  */
 public class BulletExample extends ApplicationAdapter {
 
