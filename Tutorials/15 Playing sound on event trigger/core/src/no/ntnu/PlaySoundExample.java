@@ -5,13 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 /**
- * Plays a sound on key press and mouse button click.
- * To test it, press W on keyboard or click left mouse button somewhere on game
- * screen
+ * Plays a sound on key press and mouse button click. To test it, press W on
+ * keyboard or click left mouse button somewhere on game screen 
+ * 
+ * The tutorial for this example is found here:
+ * https://github.com/strazdinsg/gamelab/wiki/Playing-audio-on-mouse-button-click
  */
 public class PlaySoundExample extends ApplicationAdapter {
+
     private SoundKeyHandler keyHandler;
-    
+
     @Override
     public void create() {
         // we will handle key and mouse presses by the InputHandler
