@@ -1,6 +1,5 @@
 package no.ntnu;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -9,7 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
  * storage is expected:
  * https://github.com/strazdinsg/datakomm-tools/tree/master/online-storage
  */
-public class GameStateCloudStorage extends ApplicationAdapter {
+public class GameStateCloudStorage {
 
     // You need to set some kind of unique cloud-storage key for your game 
     // otherwise other games will overwrite your state!
