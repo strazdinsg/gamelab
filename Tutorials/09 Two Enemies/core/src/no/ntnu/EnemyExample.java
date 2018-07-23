@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * This example shows how to create enemies with several movement patterns (AIs)
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Creating-enemies
  */
 public class EnemyExample extends ApplicationAdapter {
 

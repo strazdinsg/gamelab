@@ -3,7 +3,8 @@ package no.ntnu;
 import com.badlogic.gdx.ApplicationAdapter;
 
 /**
- * This applications shows how to store game state: score, etc
+ * This applications shows how to store game state: score, etc.
+ * Wiki-page: https://github.com/strazdinsg/gamelab/wiki/Save-and-load-game-state
  */
 public class GameStateExample extends ApplicationAdapter {
 

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * In this example we show how to change the texture/color
  * of an entity in libGDX.
+ * Wiki-page: https://github.com/strazdinsg/gamelab/wiki/Changing-texture-of-entity-on-key-press
  */
 public class EntityExample extends ApplicationAdapter {
 

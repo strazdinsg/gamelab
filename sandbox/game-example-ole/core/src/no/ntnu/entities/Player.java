@@ -1,12 +1,12 @@
 package no.ntnu.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import no.ntnu.ShooterGame;
 import no.ntnu.screens.GameScreen;
 
 public class Player implements Entity {
@@ -44,10 +44,27 @@ public class Player implements Entity {
      */
     @Override
     public void render(SpriteBatch batch) {
+
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            pos.y++;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
+            pos.y--;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            pos.x--;
+        } else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            pos.x++;
+        }
+
+
+        sprite.setPosition(pos.x, pos.y);
+        sprite.setOriginCenter();
         // Find out direction (angle) of the mouse pointer, rotate the 
         // player's ship accordingly, and shoot bullet in that direction if
         // mouse is pressed
-        Vector2 aim = getAim();
+        Vector2 aim = getAim(pos.x, pos.y);
         rotateSprite(aim.angleRad());
         if (mouseClicked()) {
             if (weaponCooledDown()) {
@@ -55,6 +72,8 @@ public class Player implements Entity {
             }
         }
         sprite.draw(batch);
+
+
     }
 
     /**
@@ -71,15 +90,19 @@ public class Player implements Entity {
      *
      * @return
      */
-    private Vector2 getAim() {
+    private Vector2 getAim(float x, float y) {
         // Warning - the calculations are incorrect if the screen is 
         // resized and world is scaled!
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
         // The sprite has some offset, we need to compensate for it
-        float dx = mouseX - pos.x - sprite.getOriginX();
-        float dy = mouseY - pos.y - 3 * sprite.getOriginY();
+        float dx = mouseX - x - sprite.getOriginX();
+
+        // quick fix: invert y and correct offsett with 390.
+        float dy = mouseY - 390 + y - 3 * sprite.getOriginY();
         return new Vector2(dx, dy);
+
+
     }
 
     /**

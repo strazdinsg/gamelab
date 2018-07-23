@@ -2,7 +2,6 @@ package no.ntnu;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +15,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+/**
+ * Demo of 2D physics simulation.
+ * Press arrow kesy to interact with one of the boxes.
+ * Wiki-page: https://github.com/strazdinsg/gamelab/wiki/Physics-simulation
+ */
 public class PhysicsExample extends ApplicationAdapter {
 
     private SpriteBatch batch;

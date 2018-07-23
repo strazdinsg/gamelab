@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * field to enter username in.
  *
  * You can fint the tutorial wiki here:
- * https://github.com/strazdinsg/gamelab/wiki/Dialog-with-text-input
+ * https://github.com/strazdinsg/gamelab/wiki/Text-input-field
  */
 public class TextFieldInputExample extends Game{
 

@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * This example shows how to spawn enemies in random locations, with random AI
  * and at random time intervals
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Creating-enemies
  */
 public class EnemyExample extends ApplicationAdapter {
 

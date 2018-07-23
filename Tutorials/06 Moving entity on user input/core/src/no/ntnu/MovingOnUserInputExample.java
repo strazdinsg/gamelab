@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * Use mouse and WASD keys to control the position and orientation of an entity
  * on the screen
+ * Wiki-page: https://github.com/strazdinsg/gamelab/wiki/Moving-entity-on-user-input
  */
 public class MovingOnUserInputExample extends ApplicationAdapter {
 

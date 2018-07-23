@@ -1,0 +1,1 @@
+Wiki-page: https://github.com/strazdinsg/gamelab/wiki/Save-and-load-game-state
