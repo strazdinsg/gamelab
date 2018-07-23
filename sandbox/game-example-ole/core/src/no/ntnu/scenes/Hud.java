@@ -78,6 +78,7 @@ public class Hud implements Disposable {
      * Disposes of components when the HUD is
      * no longer needed.
      */
+    @Override
     public void dispose() {
         batch.dispose();
         stage.dispose();
