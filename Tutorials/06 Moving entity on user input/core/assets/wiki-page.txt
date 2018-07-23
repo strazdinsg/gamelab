@@ -1,0 +1,1 @@
+Wiki-page: https://github.com/strazdinsg/gamelab/wiki/Moving-entity-on-user-input

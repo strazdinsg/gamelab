@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 /**
  * This applications shows how to implement timed events: something happening at
  * specific time intervals.
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Timed-events
  */
 public class TimedEventExample extends ApplicationAdapter {
 

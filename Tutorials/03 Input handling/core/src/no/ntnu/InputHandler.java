@@ -3,20 +3,25 @@ package no.ntnu;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
-
+/**
+ * Event-driven keyboard and mouse input handler
+ */
 public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.W) {
-            System.out.println("W was pressed!");
+            System.out.println("W was pressed! (Event received in InputHandler)");
         }
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        if (keycode == Input.Keys.W) {
+            System.out.println("W was released! (Event received in InputHandler)");
+        }
+        return true;
     }
 
     @Override

@@ -11,6 +11,8 @@ import com.badlogic.gdx.files.FileHandle;
  * When you launch the application for the first time, it will start with a
  * default state. It will update and save the game state periodically. Next time
  * when you load it, the old game state should be restored.
+ * 
+ * Wiki-page: https://github.com/strazdinsg/gamelab/wiki/Save-and-load-game-state
  */
 public class GameStateExample extends ApplicationAdapter {
 

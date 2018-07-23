@@ -20,15 +20,21 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+/**
+ * Wiki-page link: https://github.com/strazdinsg/gamelab/wiki/Collision-detection
+ */
 public class CollisionDetectionExample extends ApplicationAdapter implements ContactListener {
 
     private SpriteBatch batch;
     private Texture boxTexture;
     private Texture floorTexture;
-    private Body box1, box2;
+    // Physical bodies
+    private Body box1, box2; 
     private Body floor;
-    private Sprite box1Sprite, box2Sprite;
+    // Images to be drawn according to physical body location and orientation
+    private Sprite box1Sprite, box2Sprite; 
     private Sprite floorSprite;
+    // Physics rendering engine
     private World world;
 
     @Override
@@ -80,6 +86,7 @@ public class CollisionDetectionExample extends ApplicationAdapter implements Con
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Apply some artificial forces on arrow key press
         if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
             box1.applyTorque(-3 * box1.getInertia(), true);
         }
@@ -90,6 +97,7 @@ public class CollisionDetectionExample extends ApplicationAdapter implements Con
             box1.applyForceToCenter(new Vector2(0, 200 * box1.getMass()), true);
         }
 
+        // Take one step in the physics calculations
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         box1Sprite.setPosition(box1.getPosition().x - box1Sprite.getWidth() / 2, box1.getPosition().y - box1Sprite.getHeight() / 2);
         box2Sprite.setPosition(box2.getPosition().x - box2Sprite.getWidth() / 2, box2.getPosition().y - box2Sprite.getHeight() / 2);

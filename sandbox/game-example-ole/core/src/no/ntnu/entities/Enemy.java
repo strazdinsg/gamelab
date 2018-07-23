@@ -1,10 +1,10 @@
 package no.ntnu.entities;
 
-        import com.badlogic.gdx.Gdx;
-        import com.badlogic.gdx.graphics.Texture;
-        import com.badlogic.gdx.graphics.g2d.Sprite;
-        import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-        import no.ntnu.ShooterGame;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import no.ntnu.ShooterGame;
 
 /**
  * Represents one enemy in the game world: it's location, speed, texture, etc

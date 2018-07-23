@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class GameScreen implements Screen{
+public class GameScreen implements Screen {
 
-    private ShooterGame instance;
+    private final ShooterGame instance;
 
     private static final float SPAWN_PROBABILITY = 0.3f;
 
@@ -43,19 +43,16 @@ public class GameScreen implements Screen{
     public static final float ENEMY_SPEED_X = 100;
     public static final float ENEMY_SPEED_Y = -100 - 100 * MathUtils.random();
 
-    // Coordinates for enemy
-    private Enemy enemy;
-
     private Texture playerTexture;
     private Texture bulletTexture;
-    private Player player;
+    private final Player player;
     private Hud hud;
 
-    private SpriteBatch batch;
+    private final SpriteBatch batch;
     private OrthographicCamera camera;
 
     // List of all renderable entities
-    private List<Entity> entities;
+    private final List<Entity> entities;
 
     public GameScreen() {
         instance = ShooterGame.getInstance();
@@ -67,8 +64,6 @@ public class GameScreen implements Screen{
         createHud();
         player = new Player(playerTexture, bulletTexture, this);
         registerEntity(player);
-
-        createEnemy();
     }
 
     @Override
@@ -144,24 +139,12 @@ public class GameScreen implements Screen{
     }
 
     /**
-     * Creates an enemy
-     */
-    private void createEnemy() {
-        // Spawn it at the top of the screen, at a random horizontal position
-        final int BOUNDARY = 200;
-        int enemyX = MathUtils.random(0, ShooterGame.SCREEN_WIDTH - BOUNDARY);
-        int enemyY = MathUtils.random(0,ShooterGame.SCREEN_HEIGHT - BOUNDARY);
-        enemy = new Enemy("enemy.png", enemyX, enemyY, ENEMY_SPEED_X, ENEMY_SPEED_Y);
-    }
-
-    /**
      * Creates the HUD of the game.
      */
     private void createHud() {
         // Creates the HUD
         hud = new Hud(this);
     }
-
 
     void loadTextures() {
         playerTexture = new Texture("player.png");
@@ -248,7 +231,7 @@ public class GameScreen implements Screen{
         // Spawn enemies at random position, with random speed
         final int BOUNDARY = 200;
         int enemyX = MathUtils.random(0, ShooterGame.SCREEN_WIDTH - BOUNDARY);
-        int enemyY = MathUtils.random(0,ShooterGame.SCREEN_HEIGHT - BOUNDARY);
+        int enemyY = MathUtils.random(0, ShooterGame.SCREEN_HEIGHT - BOUNDARY);
         Enemy e = new Enemy(texture, enemyX, enemyY, ENEMY_SPEED_X, ENEMY_SPEED_Y);
         enemies.add(e);
     }
